@@ -91,7 +91,7 @@ const getRandomInt = (min: number, max: number) => {
   return Math.round(getRandom(min, max));
 };
 
-export const makeQueryId = () => {
+export const getHighloadQueryId = () => {
   // calculate query id
   const maxKeyCount = 1 << 13; //That is max key count not max key value
   const maxShift = maxKeyCount - 1;

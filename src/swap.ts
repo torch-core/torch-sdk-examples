@@ -10,6 +10,7 @@ import {
   toUnit,
 } from '@torch-finance/v1-sdk';
 import { getHighloadWalletV3, getWalletV5 } from './wallets';
+import { getHighloadQueryId } from './wallets/highload/highload-query-id';
 
 configDotenv();
 
@@ -32,7 +33,7 @@ async function main() {
   const { wallet, send } = await getHighloadWalletV3(tonClient, mnemonic);
 
   // Recommend to generate queryId before sending transaction
-  const queryId = await generateQueryId();
+  const queryId = getHighloadQueryId();
 
   // Asset In
   const assetIn = Asset.jetton(Address.parse('USDT'));
@@ -42,7 +43,7 @@ async function main() {
   // Exchange 100 USDT to USDC
   const swapParams: SwapParams = {
     mode: 'ExactIn',
-    queryId,
+    queryId: queryId.getQueryId(),
     assetIn,
     assetOut,
     amountIn: toUnit('100', assetInDecimals), // 100 USDT
@@ -58,7 +59,7 @@ async function main() {
   // Get BoC and Send Transaction
   const sender = wallet.address;
   const senderArgs = await sdk.getSwapPayload(sender, swapParams);
-  const msgHash = await send(senderArgs);
+  const msgHash = await send(senderArgs, queryId);
   console.log(`Transaction sent with msghash: ${msgHash}`);
 }
 

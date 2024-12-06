@@ -12,7 +12,10 @@ import {
 } from '@ton/ton';
 import { getMsgHash, retry } from './utils';
 import { HighloadWalletV3 } from './highload/highload-wallet';
-import { makeQueryId } from './highload/highload-query-id';
+import {
+  getHighloadQueryId,
+  HighloadQueryId,
+} from './highload/highload-query-id';
 import TonConnect, {
   SendTransactionRequest,
   TonConnectOptions,
@@ -86,10 +89,10 @@ export const getHighloadWalletV3 = async (
   );
 
   const send = async (
-    args: SenderArguments | SenderArguments[]
+    args: SenderArguments | SenderArguments[],
+    queryId: HighloadQueryId
   ): Promise<string> => {
     args = Array.isArray(args) ? args : [args];
-    const queryId = makeQueryId();
     const msgs: OutActionSendMsg[] = await Promise.all(
       args.map(async arg => {
         return {

@@ -9,7 +9,7 @@ import {
   TorchSDK,
   toUnit,
 } from '@torch-finance/v1-sdk';
-import { getTonConnectWallet, getWalletV5 } from './wallets';
+import { getTonConnectWallet } from './wallets';
 
 configDotenv();
 
@@ -18,7 +18,7 @@ async function main() {
   const api = new TorchAPI({ indexerEndpoint: testnetIndexer });
   const sdk = new TorchSDK({ tonClient, factoryAddress, api });
 
-  // Manually Sync pool information (usually use when pool list is updated)
+  // Manually Sync pool information (usually use when pool list is out of date)
   // But not necessary for every transaction since it's cached and we will automatically sync when needed
   await sdk.sync();
 
