@@ -1,0 +1,28 @@
+{
+  "name": "torch-sdk-examples",
+  "packageManager": "yarn@4.5.0",
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "scripts": {
+    "pull": "git submodule update --recursive --remote && cd packages/torch-sdk && yarn install && yarn build && cd ../.. && yarn install",
+    "deposit": "tsx src/deposit.ts",
+    "swap": "tsx src/swap.ts",
+    "withdraw": "tsx src/withdraw.ts"
+  },
+  "dependencies": {
+    "@ton/core": "^0.59.0",
+    "@ton/crypto": "^3.3.0",
+    "@ton/sandbox": "^0.22.0",
+    "@ton/ton": "^15.1.0",
+    "@torch-finance/v1-sdk": "file:./packages/torch-sdk",
+    "@types/node": "^22.10.1",
+    "axios": "^1.7.8",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@tonconnect/sdk": "^3.0.5"
+  }
+}

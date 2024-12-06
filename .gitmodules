@@ -1,0 +1,4 @@
+[submodule "packages/torch-sdk"]
+	path = packages/torch-sdk
+	url = https://github.com/torch-core/torch-sdk.git
+	branch = develop
