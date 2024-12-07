@@ -1,6 +1,12 @@
 import { Address, TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
-import { factoryAddress, testnetEndpoint, testnetIndexer } from './config';
+import {
+  factoryAddress,
+  testnetEndpoint,
+  testnetIndexer,
+  tonAsset,
+  tsTONAsset,
+} from './config';
 import {
   Asset,
   generateQueryId,
@@ -30,28 +36,27 @@ async function main() {
   }
 
   // Get Wallet and Send Function (Using Highload Wallet, suitable for high frequency service)
-  const { wallet, send } = await getHighloadWalletV3(tonClient, mnemonic);
+  // const { wallet, send } = await getHighloadWalletV3(tonClient, mnemonic);
+  const { wallet, send } = await getWalletV5(tonClient, mnemonic);
 
   // Recommend to generate queryId before sending transaction
-  const queryId = getHighloadQueryId();
+  // const queryId = getHighloadQueryId();
+  const queryId = await generateQueryId();
 
-  // Asset In
-  const assetIn = Asset.jetton(Address.parse('USDT'));
-  const assetOut = Asset.jetton(Address.parse('USDC'));
-  const assetInDecimals = 6;
+  // This is TON's decimals
+  const assetInDecimals = 9;
 
   // Exchange 100 USDT to USDC
   const swapParams: SwapParams = {
     mode: 'ExactIn',
-    queryId: queryId.getQueryId(),
-    assetIn,
-    assetOut,
-    amountIn: toUnit('100', assetInDecimals), // 100 USDT
-    routes: [Address.parse('Base Pool Address')], // Route to Base Pool
+    queryId: queryId,
+    assetIn: tonAsset,
+    assetOut: tsTONAsset,
+    amountIn: toUnit('0.01', assetInDecimals), // 0.01 TON
     slippageTolerance: 0.01, // 1%
   };
 
-  // Simulate the deposit payload
+  // Simulate the swap payload
   const results = await sdk.api.simulateSwap(swapParams);
   console.log(`Execution Price: ${results.executionPrice}`);
   console.log(`Estimated Amount Out: ${results.amountOut}`);
@@ -59,7 +64,7 @@ async function main() {
   // Get BoC and Send Transaction
   const sender = wallet.address;
   const senderArgs = await sdk.getSwapPayload(sender, swapParams);
-  const msgHash = await send(senderArgs, queryId);
+  const msgHash = await send(senderArgs);
   console.log(`Transaction sent with msghash: ${msgHash}`);
 }
 

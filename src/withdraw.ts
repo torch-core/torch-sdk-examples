@@ -1,15 +1,20 @@
-import { Address, TonClient4 } from '@ton/ton';
+import { TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
-import { factoryAddress, testnetEndpoint, testnetIndexer } from './config';
 import {
-  Asset,
+  factoryAddress,
+  LSDPoolAddress,
+  MetaPoolAddress,
+  testnetEndpoint,
+  testnetIndexer,
+} from './config';
+import {
   generateQueryId,
   WithdrawParams,
   TorchAPI,
   TorchSDK,
   toUnit,
 } from '@torch-finance/v1-sdk';
-import { getTonConnectWallet } from './wallets';
+import { getWalletV5 } from './wallets';
 
 configDotenv();
 
@@ -28,14 +33,10 @@ async function main() {
   }
 
   // Get Wallet and Send Function
-  const { connector, send } = await getTonConnectWallet();
+  const { wallet, send } = await getWalletV5(tonClient, mnemonic);
 
   // Recommend to generate queryId before sending transaction
   const queryId = await generateQueryId();
-
-  // Pool Address
-  const metaPoolAddress = Address.parse('meta pool address');
-  const basePoolAddress = Address.parse('base pool address');
 
   // Lp Token Decimals is fixed to 18
   const LpDecimals = 18;
@@ -44,23 +45,23 @@ async function main() {
   const withdrawParams: WithdrawParams = {
     mode: 'Single',
     queryId,
-    pool: metaPoolAddress,
-    removeLpAmount: toUnit(10, LpDecimals),
+    pool: MetaPoolAddress,
+    removeLpAmount: toUnit(0.01, LpDecimals),
     nextWithdraw: {
       mode: 'Balanced',
-      pool: basePoolAddress,
+      pool: LSDPoolAddress,
     },
   };
 
   // Simulate the withdraw payload
   const results = await sdk.api.simulateWithdraw(withdrawParams);
+  console.log('Will receive:');
   for (const result of results.withdrawAmounts) {
-    console.log('Will receive:');
-    console.log(`${result.amount} ${result.asset.toString()}`);
+    console.log(`${result.amount.toString()} ${JSON.stringify(result.asset)}`);
   }
 
   // Get BoC and Send Transaction (Assume wallet is connected and account is set)
-  const sender = Address.parse(connector.account?.address!);
+  const sender = wallet.address;
   const senderArgs = await sdk.getWithdrawPayload(sender, withdrawParams);
 
   const msgHash = await send(senderArgs);
