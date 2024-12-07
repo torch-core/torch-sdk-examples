@@ -1,6 +1,5 @@
 node_modules
 dist
-types
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
