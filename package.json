@@ -5,6 +5,7 @@
     "node": ">=18.17.0"
   },
   "scripts": {
+    "prepare": "git submodule update --init --recursive",
     "pull": "git submodule update --recursive --remote && cd packages/torch-sdk && yarn install && yarn build && cd ../.. && yarn install",
     "deposit": "tsx src/deposit.ts",
     "swap": "tsx src/swap.ts",
