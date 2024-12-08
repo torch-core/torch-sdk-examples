@@ -1,4 +1,4 @@
-import { Address, TonClient4 } from '@ton/ton';
+import { TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
 import {
   factoryAddress,
@@ -8,15 +8,13 @@ import {
   tsTONAsset,
 } from './config';
 import {
-  Asset,
   generateQueryId,
   SwapParams,
   TorchAPI,
   TorchSDK,
   toUnit,
-} from '@torch-finance/v1-sdk';
-import { getHighloadWalletV3, getWalletV5 } from './wallets';
-import { getHighloadQueryId } from './wallets/highload/highload-query-id';
+} from '@torch-finance/sdk';
+import { getWalletV5 } from './wallets';
 
 configDotenv();
 

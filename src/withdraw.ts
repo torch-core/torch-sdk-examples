@@ -13,7 +13,7 @@ import {
   TorchAPI,
   TorchSDK,
   toUnit,
-} from '@torch-finance/v1-sdk';
+} from '@torch-finance/sdk';
 import { getWalletV5 } from './wallets';
 
 configDotenv();

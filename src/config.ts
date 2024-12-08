@@ -1,5 +1,5 @@
 import { Address } from '@ton/core';
-import { Asset } from '@torch-finance/v1-sdk';
+import { Asset } from '@torch-finance/sdk';
 
 export const testnetEndpoint = 'https://testnet-v4.tonhubapi.com';
 
