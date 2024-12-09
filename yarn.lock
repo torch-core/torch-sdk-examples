@@ -330,9 +330,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@torch-finance/sdk@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@torch-finance/sdk@npm:0.0.1"
+"@torch-finance/sdk@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "@torch-finance/sdk@npm:0.0.2"
   dependencies:
     axios: "npm:^1.7.8"
     buffer: "npm:^6.0.3"
@@ -345,7 +345,7 @@ __metadata:
     "@ton/crypto": ">=3.3.0"
     "@ton/sandbox": ">=0.22.0"
     "@ton/ton": ">=15.1.0"
-  checksum: 10c0/44c8afc9cc9261e6c38c2e577b4f7733a0710f6668fa3a2528bb70f5fac81a135fe8c7703cf64bfbd466781bc62da98d9db1fa7b883516833c1fe12186aa867d
+  checksum: 10c0/540d7a43a9fb5c6b2475e1e5875c737c18cd587713ba1a94f0a010578cb426a73c935367b8996692a42e73e2ce1a910c531946f6574f44e005d5d9bf5a4da386
   languageName: node
   linkType: hard
 
@@ -1352,7 +1352,7 @@ __metadata:
     "@ton/sandbox": "npm:^0.22.0"
     "@ton/ton": "npm:^15.1.0"
     "@tonconnect/sdk": "npm:^3.0.5"
-    "@torch-finance/sdk": "npm:^0.0.1"
+    "@torch-finance/sdk": "npm:^0.0.2"
     "@types/node": "npm:^22.10.1"
     axios: "npm:^1.7.8"
     decimal.js: "npm:^10.4.3"
