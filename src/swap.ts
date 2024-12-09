@@ -44,7 +44,7 @@ async function main() {
   // This is TON's decimals
   const assetInDecimals = 9;
 
-  // Exchange 100 USDT to USDC
+  // Exchange 0.01 TON for tsTON
   const swapParams: SwapParams = {
     mode: 'ExactIn',
     queryId: queryId,
@@ -59,7 +59,7 @@ async function main() {
   console.log(`Execution Price: ${results.executionPrice}`);
   console.log(`Estimated Amount Out: ${results.amountOut}`);
 
-  // Get BoC and Send Transaction
+  // Send Transaction and get msghash
   const sender = wallet.address;
   const senderArgs = await sdk.getSwapPayload(sender, swapParams);
   const msgHash = await send(senderArgs);
