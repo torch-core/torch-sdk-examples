@@ -26,7 +26,7 @@ Before you begin, ensure you have the following installed:
    yarn install
    ```
 
-3. **Environment Configuration**
+3. **Backend Environment Configuration**
 
    Create a `.env` file in the root directory of the project and add your wallet mnemonic:
 
@@ -34,7 +34,7 @@ Before you begin, ensure you have the following installed:
    WALLET_MNEMONIC=your mnemonic here
    ```
 
-## Running Examples
+## Running Backend Examples
 
 The repository includes several example scripts located in the `src` directory. You can run these examples using the following commands:
 
@@ -43,7 +43,7 @@ The repository includes several example scripts located in the `src` directory. 
   To run the deposit example, execute:
 
   ```bash
-  yarn deposit
+  yarn workspace backend-examples deposit
   ```
 
   This script demonstrates how to perform a deposit using the Torch SDK.
@@ -53,7 +53,7 @@ The repository includes several example scripts located in the `src` directory. 
   To run the swap example, execute:
 
   ```bash
-  yarn swap
+  yarn workspace backend-examples swap
   ```
 
   This script demonstrates how to perform a token swap using the Torch SDK.
@@ -63,16 +63,25 @@ The repository includes several example scripts located in the `src` directory. 
   To run the withdraw example, execute:
 
   ```bash
-  yarn withdraw
+  yarn workspace backend-examples withdraw
   ```
 
   This script demonstrates how to perform a withdrawal using the Torch SDK.
 
 ## Example Files
 
-- `src/deposit.ts`: Demonstrates how to perform a deposit.
-- `src/swap.ts`: Demonstrates how to perform a token swap.
-- `src/withdraw.ts`: Demonstrates how to perform a withdrawal.
+- `src/backend-examples/deposit.ts`: Demonstrates how to perform a deposit.
+- `src/backend-examples/swap.ts`: Demonstrates how to perform a token swap.
+- `src/backend-examples/withdraw.ts`: Demonstrates how to perform a withdrawal.
+
+## Running Frontend Examples
+
+To run the frontend examples, execute:
+
+```bash
+yarn workspace frontend-examples install
+yarn workspace frontend-examples dev
+```
 
 ## License
 

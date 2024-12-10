@@ -1414,6 +1414,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"backend-examples@workspace:backend-examples":
+  version: 0.0.0-use.local
+  resolution: "backend-examples@workspace:backend-examples"
+  dependencies:
+    tsx: "npm:^4.19.2"
+  languageName: unknown
+  linkType: soft
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
@@ -3688,7 +3696,6 @@ __metadata:
     axios: "npm:^1.7.8"
     decimal.js: "npm:^10.4.3"
     dotenv: "npm:^16.4.5"
-    tsx: "npm:^4.19.2"
     zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft

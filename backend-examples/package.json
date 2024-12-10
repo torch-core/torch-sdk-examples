@@ -1,0 +1,12 @@
+{
+  "name": "backend-examples",
+  "packageManager": "yarn@4.5.0",
+  "scripts": {
+    "deposit": "tsx deposit.ts",
+    "swap": "tsx swap.ts",
+    "withdraw": "tsx withdraw.ts"
+  },
+  "dependencies": {
+    "tsx": "^4.19.2"
+  }
+}

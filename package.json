@@ -8,21 +8,12 @@
     "backend-examples",
     "frontend-examples"
   ],
-  "scripts": {
-    "prepare": "git submodule update --init --recursive",
-    "pull": "git submodule update --recursive --remote && cd packages/torch-sdk && yarn install && yarn build && cd ../.. && yarn install",
-    "backend:deposit": "yarn workspace backend-examples run deposit",
-    "backend:swap": "yarn workspace backend-examples run swap",
-    "backend:withdraw": "yarn workspace backend-examples run withdraw",
-    "frontend:dev": "yarn workspace frontend-examples dev"
-  },
   "dependencies": {
     "@torch-finance/sdk": "^0.0.2",
     "@types/node": "^22.10.1",
     "axios": "^1.7.8",
     "decimal.js": "^10.4.3",
     "dotenv": "^16.4.5",
-    "tsx": "^4.19.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
