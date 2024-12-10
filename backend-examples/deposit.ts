@@ -21,7 +21,7 @@ import {
 import { getWalletV5 } from './wallets';
 import Decimal from 'decimal.js';
 
-configDotenv();
+configDotenv({ path: '../.env' });
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });

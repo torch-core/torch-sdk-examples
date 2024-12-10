@@ -16,7 +16,7 @@ import {
 } from '@torch-finance/sdk';
 import { getWalletV5 } from './wallets';
 
-configDotenv();
+configDotenv({ path: '../.env' });
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
