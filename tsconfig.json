@@ -15,6 +15,6 @@
     },
     "isolatedModules": false
   },
-  "include": ["src", "tests"],
+  "include": ["backend-examples", "tests"],
   "exclude": ["node_modules", "dist"]
 }

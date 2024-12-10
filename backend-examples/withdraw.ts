@@ -41,7 +41,7 @@ async function main() {
   // Lp Token Decimals is fixed to 18
   const LpDecimals = 18;
 
-  // Remove 10 LP tokens from Meta Pool and then withdraw from Base Pool
+  // Remove 0.1 LP tokens from Meta Pool and then withdraw from Base Pool
   const withdrawParams: WithdrawParams = {
     mode: 'Single',
     queryId,
