@@ -44,7 +44,7 @@ async function main() {
   // This is USDC's decimals
   const assetInDecimals = 6;
 
-  // Exchange 0.01 TON for tsTON
+    // Exchange 0.01 TON for tsTON
   const swapParams: SwapParams = {
     mode: 'ExactIn',
     queryId: queryId,
