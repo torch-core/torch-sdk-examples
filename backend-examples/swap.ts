@@ -4,7 +4,6 @@ import {
   factoryAddress,
   testnetEndpoint,
   testnetIndexer,
-  tonAsset,
   USDC_ASSET,
   USDT_ASSET,
 } from './config';
