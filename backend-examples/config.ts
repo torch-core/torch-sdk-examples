@@ -14,7 +14,7 @@ export const TriUSDPoolAddress = Address.parse(
 );
 
 export const MetaPoolAddress = Address.parse(
-  'EQDYWQYgtEx4_UtZW7vLmhFxeMTKCI3Ha_5ywrx3pOi58n2w'
+  'EQA5h4BouMbOmb2tY-rgks-EykMNc5dionZk1MuhUlO7z9Zi'
 );
 
 export const USDCAddress = Address.parse(
