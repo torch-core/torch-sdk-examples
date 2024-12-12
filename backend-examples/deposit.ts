@@ -2,13 +2,14 @@ import { TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
 import {
   factoryAddress,
-  hTONAsset,
-  LSDPoolAddress,
+  SCRVUSD_ASSET,
+  TriUSDPoolAddress,
   MetaPoolAddress,
-  stTONAsset,
+  USDC_ASSET,
   testnetEndpoint,
   testnetIndexer,
-  tsTONAsset,
+  USDT_ASSET,
+  CRVUSD_ASSET,
 } from './config';
 import {
   Asset,
@@ -42,24 +43,24 @@ async function main() {
   // Deposit Params
   const depositParams: DepositParams = {
     queryId,
-    pool: LSDPoolAddress,
+    pool: TriUSDPoolAddress,
     depositAmounts: [
       {
-        asset: Asset.ton(),
-        amount: toUnit('0.1', 9),
+        asset: CRVUSD_ASSET,
+        amount: toUnit('0.1', 18), // 0.1 CRVUSD in TriUSD pool
       },
       {
-        asset: tsTONAsset,
-        amount: toUnit('0.1', 9),
+        asset: USDT_ASSET,
+        amount: toUnit('0.1', 6), // 0.1 USDT in TriUSD pool
       },
       {
-        asset: stTONAsset,
-        amount: toUnit('0.1', 9),
+        asset: USDC_ASSET,
+        amount: toUnit('0.1', 6), // 0.1 USDC in TriUSD pool
       },
     ],
     nextDeposit: {
       pool: MetaPoolAddress,
-      depositAmounts: { asset: hTONAsset, amount: toUnit('0.1', 9) },
+      depositAmounts: { asset: SCRVUSD_ASSET, amount: toUnit('0.1', 18) }, // 0.1 SCRVUSD in Meta USD pool
     },
   };
 

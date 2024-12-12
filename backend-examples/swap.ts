@@ -5,7 +5,7 @@ import {
   testnetEndpoint,
   testnetIndexer,
   tonAsset,
-  tsTONAsset,
+  USDT_ASSET,
 } from './config';
 import {
   generateQueryId,
@@ -49,7 +49,7 @@ async function main() {
     mode: 'ExactIn',
     queryId: queryId,
     assetIn: tonAsset,
-    assetOut: tsTONAsset,
+    assetOut: USDT_ASSET,
     amountIn: toUnit('0.01', assetInDecimals), // 0.01 TON
     slippageTolerance: 0.01, // 1%
   };

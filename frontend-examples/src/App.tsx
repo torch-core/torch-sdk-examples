@@ -7,7 +7,6 @@ import {
   useTonWallet,
 } from '@tonconnect/ui-react';
 import {
-  Asset,
   DepositParams,
   generateQueryId,
   SwapParams,
@@ -18,31 +17,17 @@ import {
 } from '@torch-finance/sdk';
 import { TonClient4 } from '@ton/ton';
 import '@ton/crypto';
-
-const testnetEndpoint = 'https://testnet-v4.tonhubapi.com';
-const testnetIndexer = 'https://testnet-indexer.torch.finance/';
-const factoryAddress = Address.parse(
-  'EQDzWCSmrIfx4hKo9aQS0-PppRcDsW-xJ34eMBwqQ-3v2WAh'
-);
-export const LSDPoolAddress = Address.parse(
-  'EQBEKSg-xr02gOcm1zNpJ8VgO8tl2A1nvOy9lfpm1FtJ9ncG'
-);
-
-export const MetaPoolAddress = Address.parse(
-  'EQDYWQYgtEx4_UtZW7vLmhFxeMTKCI3Ha_5ywrx3pOi58n2w'
-);
-
-export const stTONAddress = Address.parse(
-  'EQBbKadthJqQfnEsijYFvi25AKGDhS3CTVAf8oGZYwGk8G8W'
-);
-
-export const tsTONAddress = Address.parse(
-  'EQA5rOnkPx8xTWvSjKAqEkdLOIM0-IyT_u-5IEQ5R2y9m-36'
-);
-
-export const hTONAddress = Address.parse(
-  'EQDInlQkBcha9-KPGDR-eWi5VGhYPXO5s04amtzZ07s0Kzuu'
-);
+import {
+  testnetEndpoint,
+  testnetIndexer,
+  factoryAddress,
+  CRVUSD_ASSET,
+  USDT_ASSET,
+  USDC_ASSET,
+  SCRVUSD_ASSET,
+  TriUSDPoolAddress,
+  MetaPoolAddress,
+} from '../../backend-examples/config';
 
 function App() {
   const wallet = useTonWallet();
@@ -63,11 +48,9 @@ function App() {
     const swapParams: SwapParams = {
       mode: 'ExactIn',
       queryId: await generateQueryId(),
-      assetIn: Asset.ton(),
-      assetOut: Asset.jetton(
-        Address.parse('EQC98_qAmNEptUtPc7W6xdHh_ZHrBUFpw5Ft_IzNU20QAJav')
-      ),
-      amountIn: toUnit('0.01', 9), // 0.01 TON
+      assetIn: USDC_ASSET,
+      assetOut: USDT_ASSET,
+      amountIn: toUnit('0.01', 6), // 0.01 USDC
       slippageTolerance: 0.01, // 1%
     };
     const sender = Address.parse(wallet.account.address);
@@ -93,26 +76,26 @@ function App() {
     }
     const depositParams: DepositParams = {
       queryId: await generateQueryId(),
-      pool: LSDPoolAddress,
+      pool: TriUSDPoolAddress,
       depositAmounts: [
         {
-          asset: Asset.ton(),
-          amount: toUnit('0.1', 9),
+          asset: USDC_ASSET,
+          amount: toUnit('0.1', 6),
         },
         {
-          asset: Asset.jetton(tsTONAddress),
-          amount: toUnit('0.1', 9),
+          asset: USDT_ASSET,
+          amount: toUnit('0.1', 6),
         },
         {
-          asset: Asset.jetton(stTONAddress),
-          amount: toUnit('0.1', 9),
+          asset: CRVUSD_ASSET,
+          amount: toUnit('0.1', 18),
         },
       ],
       nextDeposit: {
         pool: MetaPoolAddress,
         depositAmounts: {
-          asset: Asset.jetton(hTONAddress),
-          amount: toUnit('0.1', 9),
+          asset: SCRVUSD_ASSET,
+          amount: toUnit('0.1', 18),
         },
       },
     };
@@ -145,7 +128,7 @@ function App() {
       removeLpAmount: toUnit(0.01, 18),
       nextWithdraw: {
         mode: 'Balanced',
-        pool: LSDPoolAddress,
+        pool: TriUSDPoolAddress,
       },
     };
     const sender = Address.parse(wallet.account.address);

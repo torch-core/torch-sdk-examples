@@ -2,7 +2,7 @@ import { TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
 import {
   factoryAddress,
-  LSDPoolAddress,
+  TriUSDPoolAddress,
   MetaPoolAddress,
   testnetEndpoint,
   testnetIndexer,
@@ -38,7 +38,7 @@ async function main() {
   // Recommend to generate queryId before sending transaction
   const queryId = await generateQueryId();
 
-  // Lp Token Decimals is fixed to 18
+  // Lp Token Decimals is alwaysfixed to 18
   const LpDecimals = 18;
 
   // Remove 0.1 LP tokens from Meta Pool and then withdraw from Base Pool
@@ -49,7 +49,7 @@ async function main() {
     removeLpAmount: toUnit(0.01, LpDecimals),
     nextWithdraw: {
       mode: 'Balanced',
-      pool: LSDPoolAddress,
+      pool: TriUSDPoolAddress,
     },
   };
 

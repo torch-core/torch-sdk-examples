@@ -6,39 +6,43 @@ export const testnetEndpoint = 'https://testnet-v4.tonhubapi.com';
 export const testnetIndexer = 'https://testnet-indexer.torch.finance/';
 
 export const factoryAddress = Address.parse(
-  'EQDzWCSmrIfx4hKo9aQS0-PppRcDsW-xJ34eMBwqQ-3v2WAh'
+  'EQAEQ_tRYl3_EJXBTGIKaao0AVZ00OOYOnabhR1aEVXfSoFa'
 );
 
-export const LSDPoolAddress = Address.parse(
-  'EQBEKSg-xr02gOcm1zNpJ8VgO8tl2A1nvOy9lfpm1FtJ9ncG'
+export const TriUSDPoolAddress = Address.parse(
+  'EQC2uohuNYsFl6nw1AEAf5jw3AGNk31iGDnG_jtR9Kzu63ol'
 );
 
 export const MetaPoolAddress = Address.parse(
   'EQDYWQYgtEx4_UtZW7vLmhFxeMTKCI3Ha_5ywrx3pOi58n2w'
 );
 
-export const stTONAddress = Address.parse(
-  'EQBbKadthJqQfnEsijYFvi25AKGDhS3CTVAf8oGZYwGk8G8W'
+export const USDCAddress = Address.parse(
+  'EQARxQlZfQUxhTcCRg4QraCtxmvw1GoGOeEanbcc55wLZg3E'
 );
 
-export const tsTONAddress = Address.parse(
-  'EQA5rOnkPx8xTWvSjKAqEkdLOIM0-IyT_u-5IEQ5R2y9m-36'
+export const USDTAddress = Address.parse(
+  'EQBflht80hwbivqv3Hnlhigqfe4RdY4Kb-LSOVldvGBsAgOQ'
 );
 
-export const hTONAddress = Address.parse(
-  'EQDInlQkBcha9-KPGDR-eWi5VGhYPXO5s04amtzZ07s0Kzuu'
+export const crvUSDAddress = Address.parse(
+  'EQC76HKO16zcESvqLzDXpV98uRNiPDl_TO-g6794VMDGbbNZ'
+);
+
+export const scrvUSDAddress = Address.parse(
+  'EQBN8qMhmCS2yj9a7KqRJTGPv8AZmfsBnRrw3ClODwpyus8v'
 );
 
 export const tonAsset = Asset.ton();
 
-export const tsTONAsset = Asset.jetton(tsTONAddress);
+export const CRVUSD_ASSET = Asset.jetton(crvUSDAddress);
 
-export const stTONAsset = Asset.jetton(stTONAddress);
+export const USDT_ASSET = Asset.jetton(USDTAddress);
 
-export const triTONAsset = Asset.jetton(LSDPoolAddress);
+export const USDC_ASSET = Asset.jetton(USDCAddress);
 
-export const hTONAsset = Asset.jetton(hTONAddress);
+export const TRIUSD_ASSET = Asset.jetton(TriUSDPoolAddress);
 
-export const metaLpAsset = Asset.jetton(MetaPoolAddress);
+export const SCRVUSD_ASSET = Asset.jetton(scrvUSDAddress);
 
-export const baseLpAsset = Asset.jetton(LSDPoolAddress);
+export const METAUSD_ASSET = Asset.jetton(MetaPoolAddress);
