@@ -5,6 +5,7 @@ import {
   testnetEndpoint,
   testnetIndexer,
   tonAsset,
+  USDC_ASSET,
   USDT_ASSET,
 } from './config';
 import {
@@ -41,16 +42,16 @@ async function main() {
   // const queryId = getHighloadQueryId();
   const queryId = await generateQueryId();
 
-  // This is TON's decimals
-  const assetInDecimals = 9;
+  // This is USDC's decimals
+  const assetInDecimals = 6;
 
   // Exchange 0.01 TON for tsTON
   const swapParams: SwapParams = {
     mode: 'ExactIn',
     queryId: queryId,
-    assetIn: tonAsset,
+    assetIn: USDC_ASSET,
     assetOut: USDT_ASSET,
-    amountIn: toUnit('0.01', assetInDecimals), // 0.01 TON
+    amountIn: toUnit('0.01', assetInDecimals), // 0.01 USDC
     slippageTolerance: 0.01, // 1%
   };
 
