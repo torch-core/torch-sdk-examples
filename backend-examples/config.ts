@@ -3,7 +3,7 @@ import { Asset } from '@torch-finance/sdk';
 
 export const testnetEndpoint = 'https://testnet-v4.tonhubapi.com';
 
-export const testnetIndexer = 'https://testnet-indexer.torch.finance/';
+export const testnetIndexer = 'https://testnet-indexer.torch.finance';
 
 export const factoryAddress = Address.parse(
   'EQAEQ_tRYl3_EJXBTGIKaao0AVZ00OOYOnabhR1aEVXfSoFa'
