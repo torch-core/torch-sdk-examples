@@ -6,15 +6,15 @@ export const testnetEndpoint = 'https://testnet-v4.tonhubapi.com';
 export const testnetIndexer = 'https://testnet-indexer.torch.finance';
 
 export const factoryAddress = Address.parse(
-  'EQAEQ_tRYl3_EJXBTGIKaao0AVZ00OOYOnabhR1aEVXfSoFa'
+  'EQAgrwTAxkcnN1bDsDdRnOgESa2IV_AzSslOZ_ZFdZ4u8kIY'
 );
 
 export const TriUSDPoolAddress = Address.parse(
-  'EQC2uohuNYsFl6nw1AEAf5jw3AGNk31iGDnG_jtR9Kzu63ol'
+  'EQC-ZM8QaM1--YPsFKw62anyEn9-yXe5qDsO3DKog2DiuDyk'
 );
 
 export const MetaPoolAddress = Address.parse(
-  'EQA5h4BouMbOmb2tY-rgks-EykMNc5dionZk1MuhUlO7z9Zi'
+  'EQDaTUDHVShuJ78iGx8Sjy5Nt1aY5BV2ioBVdyw0-EQwqNPQ'
 );
 
 export const USDCAddress = Address.parse(
