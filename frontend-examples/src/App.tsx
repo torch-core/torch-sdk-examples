@@ -9,16 +9,18 @@ import {
 import {
   TorchSDK,
   TorchSDKOptions,
-  SwapParams,
   DepositParams,
   WithdrawParams,
+  SwapParams,
+  generateQueryId,
+  toUnit,
 } from '@torch-finance/sdk';
 
 import { TonClient4 } from '@ton/ton';
 import '@ton/crypto';
 import {
   testnetEndpoint,
-  TriUSDPoolAddress,
+  BasePoolAddress,
   MetaPoolAddress,
   testnetOracle,
   testnetIndexer,
@@ -28,7 +30,6 @@ import {
   TON_ASSET,
   HTON_ASSET,
 } from '../../backend-examples/config';
-import { generateQueryId, toUnit } from './utils';
 
 function App() {
   const wallet = useTonWallet();
@@ -62,7 +63,6 @@ function App() {
     };
     const sender = Address.parse(wallet.account.address);
     const swapPayload = await sdk.getSwapPayload(sender, swapParams);
-
     const { boc } = await tonconnectUI.sendTransaction({
       validUntil: Date.now() + 1000 * 60, // 1 minute
       messages: [
@@ -83,7 +83,7 @@ function App() {
     }
     const depositParams: DepositParams = {
       queryId: await generateQueryId(),
-      pool: TriUSDPoolAddress,
+      pool: BasePoolAddress,
       depositAmounts: [
         {
           asset: TSTON_ASSET,
@@ -135,7 +135,7 @@ function App() {
       burnLpAmount: toUnit('0.01', 18),
       nextWithdraw: {
         mode: 'balanced',
-        pool: TriUSDPoolAddress,
+        pool: BasePoolAddress,
       },
     };
     const sender = Address.parse(wallet.account.address);

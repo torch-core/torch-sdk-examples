@@ -51,7 +51,7 @@ async function main() {
     // slippageTolerance: 0.01, // 1%
   };
 
-  // TODO:Simulate the swap payload
+  // TODO: Simulate the swap payload
 
   // Send Transaction and get msghash
   const sender = wallet.address;

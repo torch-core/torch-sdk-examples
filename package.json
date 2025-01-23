@@ -11,14 +11,11 @@
     "@ton/core": "^0.59.0",
     "@ton/crypto": "^3.3.0",
     "@ton/ton": "^15.1.0",
-    "@torch-finance/core": "^1.3.1",
+    "@tonconnect/sdk": "^3.0.6",
+    "@torch-finance/core": "^1.3.2",
     "@types/node": "^22.10.1",
     "axios": "^1.7.8",
     "decimal.js": "^10.4.3",
-    "dotenv": "^16.4.5",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@tonconnect/sdk": "^3.0.5"
+    "dotenv": "^16.4.5"
   }
 }
