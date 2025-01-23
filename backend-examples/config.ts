@@ -1,5 +1,7 @@
 import { Address } from '@ton/core';
+import { TonClient4 } from '@ton/ton';
 import { Asset } from '@torch-finance/core';
+import { TorchSDKOptions } from '@torch-finance/sdk';
 
 export const testnetEndpoint = 'https://testnet-v4.tonhubapi.com';
 
@@ -11,12 +13,12 @@ export const factoryAddress = Address.parse(
   'EQBO9Xw9w0hJQx4kw3RSKu2LROZbtKg4icITKYp5enCQVGCu'
 );
 
-export const TriUSDPoolAddress = Address.parse(
-  'EQC-ZM8QaM1--YPsFKw62anyEn9-yXe5qDsO3DKog2DiuDyk'
+export const BasePoolAddress = Address.parse(
+  'EQCEao02tugbZjudFRMfyu2s_nVZli7F_rgxC1OjdvXpsBsw'
 );
 
 export const MetaPoolAddress = Address.parse(
-  'EQDaTUDHVShuJ78iGx8Sjy5Nt1aY5BV2ioBVdyw0-EQwqNPQ'
+  'EQA4rUktNrzOmgZ4OzsOX5Q-C1KelFPCtH8ln2YaHgyAO4kc'
 );
 
 export const USDCAddress = Address.parse(
@@ -63,7 +65,7 @@ export const USDT_ASSET = Asset.jetton(USDTAddress);
 
 export const USDC_ASSET = Asset.jetton(USDCAddress);
 
-export const TRIUSD_ASSET = Asset.jetton(TriUSDPoolAddress);
+export const TRIUSD_ASSET = Asset.jetton(BasePoolAddress);
 
 export const SCRVUSD_ASSET = Asset.jetton(scrvUSDAddress);
 

@@ -2,32 +2,35 @@ import { TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
 import {
   factoryAddress,
-  SCRVUSD_ASSET,
-  TriUSDPoolAddress,
+  BasePoolAddress,
   MetaPoolAddress,
-  USDC_ASSET,
   testnetEndpoint,
   testnetIndexer,
-  USDT_ASSET,
-  CRVUSD_ASSET,
+  testnetOracle,
+  TSTON_ASSET,
+  STTON_ASSET,
+  TON_ASSET,
+  HTON_ASSET,
 } from './config';
 import {
-  Asset,
   DepositParams,
   generateQueryId,
-  TorchAPI,
   TorchSDK,
   toUnit,
 } from '@torch-finance/sdk';
 import { getWalletV5 } from './wallets';
-import Decimal from 'decimal.js';
 
 configDotenv({ path: '../.env' });
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
-  const api = new TorchAPI({ indexerEndpoint: testnetIndexer });
-  const sdk = new TorchSDK({ tonClient, factoryAddress, api });
+  const config = {
+    client: tonClient,
+    factoryAddress: factoryAddress,
+    oracleEndpoint: testnetOracle,
+    indexerEndpoint: testnetIndexer,
+  };
+  const sdk = new TorchSDK(config);
 
   const mnemonic = process.env.WALLET_MNEMONIC?.split(' ');
   if (!mnemonic) {
@@ -43,34 +46,28 @@ async function main() {
   // Deposit Params
   const depositParams: DepositParams = {
     queryId,
-    pool: TriUSDPoolAddress,
+    pool: BasePoolAddress,
     depositAmounts: [
       {
-        asset: CRVUSD_ASSET,
-        amount: toUnit('0.1', 18), // 0.1 CRVUSD in TriUSD pool
+        asset: TSTON_ASSET,
+        value: toUnit('0.0000001', 9), // 0.0000001 TSTON in TriTON pool
       },
       {
-        asset: USDT_ASSET,
-        amount: toUnit('0.1', 6), // 0.1 USDT in TriUSD pool
+        asset: STTON_ASSET,
+        value: toUnit('0.0000001', 9), // 0.0000001 STTON in TriTON pool
       },
       {
-        asset: USDC_ASSET,
-        amount: toUnit('0.1', 6), // 0.1 USDC in TriUSD pool
+        asset: TON_ASSET,
+        value: toUnit('0.0000001', 9), // 0.0000001 TON in TriTON pool
       },
     ],
     nextDeposit: {
       pool: MetaPoolAddress,
-      depositAmounts: { asset: SCRVUSD_ASSET, amount: toUnit('0.1', 18) }, // 0.1 SCRVUSD in Meta USD pool
+      depositAmounts: { asset: HTON_ASSET, value: toUnit('0.0000001', 9) }, // 0.0000001 HTON in Meta USD pool
     },
   };
 
-  // Simulate the deposit payload
-  const results = await sdk.api.simulateDeposit(depositParams);
-  const lpTokenMaster = results.lpTokenOut.asset.jettonMaster?.toString();
-  const lpTokenAmount = new Decimal(results.lpTokenOut.amount.toString()).div(
-    1e18
-  );
-  console.log(`Get ${lpTokenAmount} LP from ${lpTokenMaster}`);
+  // TODO: Simulate the deposit payload
 
   // Get BoC and Send Transaction
   const sender = wallet.address;

@@ -2,31 +2,31 @@ import { TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
 import {
   factoryAddress,
+  STTON_ASSET,
   testnetEndpoint,
   testnetIndexer,
-  USDC_ASSET,
-  USDT_ASSET,
+  testnetOracle,
+  TSTON_ASSET,
 } from './config';
 import {
-  generateQueryId,
   SwapParams,
-  TorchAPI,
   TorchSDK,
+  TorchSDKOptions,
+  generateQueryId,
   toUnit,
 } from '@torch-finance/sdk';
 import { getWalletV5 } from './wallets';
-
 configDotenv({ path: '../.env' });
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
-  const api = new TorchAPI({ indexerEndpoint: testnetIndexer });
-  const sdk = new TorchSDK({ tonClient, factoryAddress, api });
-
-  // Manually Sync pool information with indexer, this is just an example
-  // only use sync function when pool list is outdated
-  // in fact we will automatically sync when needed
-  await sdk.sync();
+  const config: TorchSDKOptions = {
+    client: tonClient,
+    factoryAddress: factoryAddress,
+    oracleEndpoint: testnetOracle,
+    indexerEndpoint: testnetIndexer,
+  };
+  const sdk = new TorchSDK(config);
 
   const mnemonic = process.env.WALLET_MNEMONIC?.split(' ');
   if (!mnemonic) {
@@ -41,23 +41,17 @@ async function main() {
   // const queryId = getHighloadQueryId();
   const queryId = await generateQueryId();
 
-  // This is USDC's decimals
-  const assetInDecimals = 6;
-
-    // Exchange 0.01 TON for tsTON
+  // Exchange 0.01 TON for tsTON
   const swapParams: SwapParams = {
     mode: 'ExactIn',
     queryId: queryId,
-    assetIn: USDC_ASSET,
-    assetOut: USDT_ASSET,
-    amountIn: toUnit('0.01', assetInDecimals), // 0.01 USDC
-    slippageTolerance: 0.01, // 1%
+    assetIn: TSTON_ASSET,
+    assetOut: STTON_ASSET,
+    amountIn: toUnit('0.000001', 9), // 0.000001 TSTON
+    // slippageTolerance: 0.01, // 1%
   };
 
-  // Simulate the swap payload
-  const results = await sdk.api.simulateSwap(swapParams);
-  console.log(`Execution Price: ${results.executionPrice}`);
-  console.log(`Estimated Amount Out: ${results.amountOut}`);
+  // TODO:Simulate the swap payload
 
   // Send Transaction and get msghash
   const sender = wallet.address;
