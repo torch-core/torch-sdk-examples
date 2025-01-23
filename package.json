@@ -1,6 +1,5 @@
 {
   "name": "torch-sdk-examples",
-  "packageManager": "yarn@4.5.0",
   "engines": {
     "node": ">=18.17.0"
   },
@@ -9,7 +8,10 @@
     "frontend-examples"
   ],
   "dependencies": {
-    "@torch-finance/sdk": "^0.0.5",
+    "@ton/core": "^0.59.0",
+    "@ton/crypto": "^3.3.0",
+    "@ton/ton": "^15.1.0",
+    "@torch-finance/core": "^1.3.1",
     "@types/node": "^22.10.1",
     "axios": "^1.7.8",
     "decimal.js": "^10.4.3",

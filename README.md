@@ -79,8 +79,8 @@ The repository includes several example scripts located in the `src` directory. 
 To run the frontend examples, execute:
 
 ```bash
-yarn workspace frontend-examples install
-yarn workspace frontend-examples dev
+pnpm --filter frontend-examples install
+pnpm --filter frontend-examples dev
 ```
 
 ## License

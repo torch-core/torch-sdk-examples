@@ -10,9 +10,6 @@
     "removeComments": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "paths": {
-      "@torch/sdk": ["packages/torch-sdk/src"]
-    },
     "isolatedModules": false
   },
   "include": ["backend-examples", "tests"],

@@ -1,12 +1,14 @@
 import { Address } from '@ton/core';
-import { Asset } from '@torch-finance/sdk';
+import { Asset } from '@torch-finance/core';
 
 export const testnetEndpoint = 'https://testnet-v4.tonhubapi.com';
 
-export const testnetIndexer = 'https://testnet-indexer.torch.finance';
+export const testnetIndexer = 'https://testnet-api.torch.finance';
+
+export const testnetOracle = 'https://testnet-oracle.torch.finance';
 
 export const factoryAddress = Address.parse(
-  'EQAgrwTAxkcnN1bDsDdRnOgESa2IV_AzSslOZ_ZFdZ4u8kIY'
+  'EQBO9Xw9w0hJQx4kw3RSKu2LROZbtKg4icITKYp5enCQVGCu'
 );
 
 export const TriUSDPoolAddress = Address.parse(
@@ -33,7 +35,27 @@ export const scrvUSDAddress = Address.parse(
   'EQBN8qMhmCS2yj9a7KqRJTGPv8AZmfsBnRrw3ClODwpyus8v'
 );
 
-export const tonAsset = Asset.ton();
+export const TON_ASSET = Asset.ton();
+
+export const STTON_ASSET = Asset.jetton(
+  Address.parse('EQBbKadthJqQfnEsijYFvi25AKGDhS3CTVAf8oGZYwGk8G8W')
+);
+
+export const TSTON_ASSET = Asset.jetton(
+  Address.parse('EQA5rOnkPx8xTWvSjKAqEkdLOIM0-IyT_u-5IEQ5R2y9m-36')
+);
+
+export const TRITON_ASSET = Asset.jetton(
+  Address.parse('EQCEao02tugbZjudFRMfyu2s_nVZli7F_rgxC1OjdvXpsBsw')
+);
+
+export const HTON_ASSET = Asset.jetton(
+  Address.parse('EQDInlQkBcha9-KPGDR-eWi5VGhYPXO5s04amtzZ07s0Kzuu')
+);
+
+export const QUADTON_ASSET = Asset.jetton(
+  Address.parse('EQA4rUktNrzOmgZ4OzsOX5Q-C1KelFPCtH8ln2YaHgyAO4kc')
+);
 
 export const CRVUSD_ASSET = Asset.jetton(crvUSDAddress);
 

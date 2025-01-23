@@ -7,34 +7,40 @@ import {
   useTonWallet,
 } from '@tonconnect/ui-react';
 import {
-  DepositParams,
-  generateQueryId,
-  SwapParams,
-  TorchAPI,
   TorchSDK,
-  toUnit,
+  TorchSDKOptions,
+  SwapParams,
+  DepositParams,
   WithdrawParams,
 } from '@torch-finance/sdk';
+
 import { TonClient4 } from '@ton/ton';
 import '@ton/crypto';
 import {
   testnetEndpoint,
-  testnetIndexer,
-  factoryAddress,
-  CRVUSD_ASSET,
-  USDT_ASSET,
-  USDC_ASSET,
-  SCRVUSD_ASSET,
   TriUSDPoolAddress,
   MetaPoolAddress,
+  testnetOracle,
+  testnetIndexer,
+  factoryAddress,
+  TSTON_ASSET,
+  STTON_ASSET,
+  TON_ASSET,
+  HTON_ASSET,
 } from '../../backend-examples/config';
+import { generateQueryId, toUnit } from './utils';
 
 function App() {
   const wallet = useTonWallet();
   const [tonconnectUI] = useTonConnectUI();
-  const tonClient = new TonClient4({ endpoint: testnetEndpoint });
-  const api = new TorchAPI({ indexerEndpoint: testnetIndexer });
-  const sdk = new TorchSDK({ tonClient, factoryAddress, api });
+
+  const config: TorchSDKOptions = {
+    client: new TonClient4({ endpoint: testnetEndpoint }),
+    factoryAddress: factoryAddress,
+    oracleEndpoint: testnetOracle,
+    indexerEndpoint: testnetIndexer,
+  };
+  const sdk = new TorchSDK(config);
 
   const onSwap = async () => {
     if (!wallet || !tonconnectUI.account) {
@@ -45,12 +51,13 @@ function App() {
       alert('Please connect to Testnet');
       return;
     }
+
     const swapParams: SwapParams = {
       mode: 'ExactIn',
       queryId: await generateQueryId(),
-      assetIn: USDC_ASSET,
-      assetOut: USDT_ASSET,
-      amountIn: toUnit('0.01', 6), // 0.01 USDC
+      assetIn: TSTON_ASSET,
+      assetOut: STTON_ASSET,
+      amountIn: toUnit('0.01', 9), // 0.01 TON
       slippageTolerance: 0.01, // 1%
     };
     const sender = Address.parse(wallet.account.address);
@@ -79,23 +86,23 @@ function App() {
       pool: TriUSDPoolAddress,
       depositAmounts: [
         {
-          asset: USDC_ASSET,
-          amount: toUnit('0.1', 6),
+          asset: TSTON_ASSET,
+          value: toUnit('0.1', 9),
         },
         {
-          asset: USDT_ASSET,
-          amount: toUnit('0.1', 6),
+          asset: STTON_ASSET,
+          value: toUnit('0.1', 9),
         },
         {
-          asset: CRVUSD_ASSET,
-          amount: toUnit('0.1', 18),
+          asset: TON_ASSET,
+          value: toUnit('0.1', 9),
         },
       ],
       nextDeposit: {
         pool: MetaPoolAddress,
         depositAmounts: {
-          asset: SCRVUSD_ASSET,
-          amount: toUnit('0.1', 18),
+          asset: HTON_ASSET,
+          value: toUnit('0.1', 9),
         },
       },
     };
@@ -122,12 +129,12 @@ function App() {
 
     // Remove 0.1 LP tokens from Meta Pool and then withdraw from Base Pool
     const withdrawParams: WithdrawParams = {
-      mode: 'Single',
+      mode: 'single',
       queryId: await generateQueryId(),
       pool: MetaPoolAddress,
-      removeLpAmount: toUnit(0.01, 18),
+      burnLpAmount: toUnit('0.01', 18),
       nextWithdraw: {
-        mode: 'Balanced',
+        mode: 'balanced',
         pool: TriUSDPoolAddress,
       },
     };
