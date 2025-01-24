@@ -5,7 +5,7 @@ import {
   BasePoolAddress,
   MetaPoolAddress,
   testnetEndpoint,
-  testnetIndexer,
+  testnetApi,
   testnetOracle,
   TSTON_ASSET,
   STTON_ASSET,
@@ -28,7 +28,7 @@ async function main() {
     client: tonClient,
     factoryAddress: factoryAddress,
     oracleEndpoint: testnetOracle,
-    indexerEndpoint: testnetIndexer,
+    indexerEndpoint: testnetApi,
   };
   const sdk = new TorchSDK(config);
 
@@ -50,30 +50,45 @@ async function main() {
     depositAmounts: [
       {
         asset: TSTON_ASSET,
-        value: toUnit('0.0000001', 9), // 0.0000001 TSTON in TriTON pool
+        value: toUnit('1', 9), // 0.0000001 TSTON in TriTON pool
       },
       {
         asset: STTON_ASSET,
-        value: toUnit('0.0000001', 9), // 0.0000001 STTON in TriTON pool
+        value: toUnit('1', 9), // 0.0000001 STTON in TriTON pool
       },
       {
         asset: TON_ASSET,
-        value: toUnit('0.0000001', 9), // 0.0000001 TON in TriTON pool
+        value: toUnit('1', 9), // 0.0000001 TON in TriTON pool
       },
     ],
     nextDeposit: {
       pool: MetaPoolAddress,
-      depositAmounts: { asset: HTON_ASSET, value: toUnit('0.0000001', 9) }, // 0.0000001 HTON in Meta USD pool
+      depositAmounts: { asset: HTON_ASSET, value: toUnit('1', 9) }, // 0.0000001 HTON in Meta USD pool
     },
   };
 
   // TODO: Simulate the deposit payload
+  console.log('\n=== Deposit Simulation ===');
+  const simulateResponse = await sdk.simulateDeposit(depositParams);
+
+  console.log(
+    `
+LP Tokens Out: ${simulateResponse.lpTokenOut.toString()}
+LP Total Supply After: ${simulateResponse.lpTotalSupplyAfter.toString()}
+Min LP Tokens Out: ${
+      simulateResponse.minLpTokenOut?.toString() ||
+      '(You did not specify slippage tolerance)'
+    }
+  `
+  );
 
   // Get BoC and Send Transaction
   const sender = wallet.address;
   const senderArgs = await sdk.getDepositPayload(sender, depositParams);
   const msgHash = await send(senderArgs);
-  console.log(`Transaction sent with msghash: ${msgHash}`);
+  console.log('\n=== Transaction Details ===');
+  console.log(`🚀 Transaction sent successfully!`);
+  console.log(`📝 Message Hash: ${msgHash}`);
 }
 
 main().catch(console.error);

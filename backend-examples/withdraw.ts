@@ -5,7 +5,7 @@ import {
   BasePoolAddress,
   MetaPoolAddress,
   testnetEndpoint,
-  testnetIndexer,
+  testnetApi,
   testnetOracle,
 } from './config';
 import {
@@ -15,15 +15,16 @@ import {
   toUnit,
 } from '@torch-finance/sdk';
 import { getWalletV5 } from './wallets';
+import { AssetType } from '@torch-finance/core';
 
 configDotenv({ path: '../.env' });
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
   const sdk = new TorchSDK({
-    client: tonClient,
+    tonClient: tonClient,
     factoryAddress: factoryAddress,
-    indexerEndpoint: testnetIndexer,
+    apiEndpoint: testnetApi,
     oracleEndpoint: testnetOracle,
   });
 
@@ -43,24 +44,59 @@ async function main() {
 
   // Remove 0.1 LP tokens from Meta Pool and then withdraw from Base Pool
   const withdrawParams: WithdrawParams = {
-    mode: 'single',
+    mode: 'Single',
     queryId,
     pool: MetaPoolAddress,
-    burnLpAmount: toUnit('0.0000000100', LpDecimals),
+    burnLpAmount: toUnit('0.000000088', LpDecimals),
     nextWithdraw: {
-      mode: 'balanced',
+      mode: 'Balanced',
       pool: BasePoolAddress,
     },
+    slippageTolerance: 0.01, // 1%
   };
 
   // TODO: Simulate the withdraw payload
+  console.log('\n=== Withdraw Simulation ===');
+  const simulateResponse = await sdk.simulateWithdraw(withdrawParams);
+
+  console.log(
+    `
+LP Tokens to Burn: ${withdrawParams.burnLpAmount.toString()}
+
+=== Expected Output ===
+${simulateResponse.amountOuts
+  .map(
+    token =>
+      `${
+        token.asset.type === AssetType.JETTON ? token.asset.jettonMaster : 'TON'
+      }: ${token.value.toString()}`
+  )
+  .join('\n')}
+
+=== Minimum Output (with slippage) ===
+${
+  simulateResponse.minAmountOuts
+    ?.map(
+      token =>
+        `${
+          token.asset.type === AssetType.JETTON
+            ? token.asset.jettonMaster
+            : 'TON'
+        }: ${token.value.toString()}`
+    )
+    .join('\n') || '(No slippage tolerance specified)'
+}
+`
+  );
 
   // Get BoC and Send Transaction (Assume wallet is connected and account is set)
   const sender = wallet.address;
   const senderArgs = await sdk.getWithdrawPayload(sender, withdrawParams);
 
   const msgHash = await send(senderArgs);
-  console.log(`Transaction sent with msghash: ${msgHash}`);
+  console.log('\n=== Transaction Details ===');
+  console.log(`🔄 Withdraw transaction sent successfully!`);
+  console.log(`📝 Message Hash: ${msgHash}`);
 }
 
 main().catch(console.error);

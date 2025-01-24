@@ -2,10 +2,10 @@ import { TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
 import {
   factoryAddress,
-  STTON_ASSET,
   testnetEndpoint,
-  testnetIndexer,
+  testnetApi as testnetApi,
   testnetOracle,
+  TON_ASSET,
   TSTON_ASSET,
 } from './config';
 import {
@@ -21,10 +21,10 @@ configDotenv({ path: '../.env' });
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
   const config: TorchSDKOptions = {
-    client: tonClient,
+    tonClient: tonClient,
     factoryAddress: factoryAddress,
     oracleEndpoint: testnetOracle,
-    indexerEndpoint: testnetIndexer,
+    apiEndpoint: testnetApi,
   };
   const sdk = new TorchSDK(config);
 
@@ -45,19 +45,40 @@ async function main() {
   const swapParams: SwapParams = {
     mode: 'ExactIn',
     queryId: queryId,
-    assetIn: TSTON_ASSET,
-    assetOut: STTON_ASSET,
-    amountIn: toUnit('0.000001', 9), // 0.000001 TSTON
-    // slippageTolerance: 0.01, // 1%
+    assetIn: TON_ASSET,
+    assetOut: TSTON_ASSET,
+    amountIn: toUnit('0.0001', 9), // 0.0001 TSTON
+    slippageTolerance: 0.01, // 1%
   };
 
   // TODO: Simulate the swap payload
+  console.log('\n=== Swap Simulation ===');
+  const simulateResponse = await sdk.simulateSwap(swapParams);
+
+  console.log(
+    `
+Amount In: ${swapParams.amountIn.toString()}
+Expected Amount Out: ${
+      simulateResponse.mode === 'ExactIn'
+        ? simulateResponse.amountOut.toString()
+        : 'N/A'
+    }
+Execution Price: 1 tsTON = ${simulateResponse.executionPrice} TON
+
+Min Amount Out: ${
+      simulateResponse.minAmountOut?.toString() ||
+      '(No slippage tolerance specified)'
+    }
+`
+  );
 
   // Send Transaction and get msghash
   const sender = wallet.address;
   const senderArgs = await sdk.getSwapPayload(sender, swapParams);
   const msgHash = await send(senderArgs);
-  console.log(`Transaction sent with msghash: ${msgHash}`);
+  console.log('\n=== Transaction Details ===');
+  console.log(`🔄 Swap transaction sent successfully!`);
+  console.log(`📝 Message Hash: ${msgHash}`);
 }
 
 main().catch(console.error);

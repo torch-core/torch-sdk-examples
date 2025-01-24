@@ -5,7 +5,7 @@ import { TorchSDKOptions } from '@torch-finance/sdk';
 
 export const testnetEndpoint = 'https://testnet-v4.tonhubapi.com';
 
-export const testnetIndexer = 'https://testnet-api.torch.finance';
+export const testnetApi = 'https://testnet-api.torch.finance';
 
 export const testnetOracle = 'https://testnet-oracle.torch.finance';
 
