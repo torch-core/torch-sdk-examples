@@ -23,7 +23,7 @@ import {
   BasePoolAddress,
   MetaPoolAddress,
   testnetOracle,
-  testnetIndexer,
+  testnetApi,
   factoryAddress,
   TSTON_ASSET,
   STTON_ASSET,
@@ -36,10 +36,10 @@ function App() {
   const [tonconnectUI] = useTonConnectUI();
 
   const config: TorchSDKOptions = {
-    client: new TonClient4({ endpoint: testnetEndpoint }),
+    tonClient: new TonClient4({ endpoint: testnetEndpoint }),
     factoryAddress: factoryAddress,
     oracleEndpoint: testnetOracle,
-    indexerEndpoint: testnetIndexer,
+    apiEndpoint: testnetApi,
   };
   const sdk = new TorchSDK(config);
 
@@ -129,12 +129,12 @@ function App() {
 
     // Remove 0.1 LP tokens from Meta Pool and then withdraw from Base Pool
     const withdrawParams: WithdrawParams = {
-      mode: 'single',
+      mode: 'Single',
       queryId: await generateQueryId(),
       pool: MetaPoolAddress,
       burnLpAmount: toUnit('0.01', 18),
       nextWithdraw: {
-        mode: 'balanced',
+        mode: 'Balanced',
         pool: BasePoolAddress,
       },
     };
