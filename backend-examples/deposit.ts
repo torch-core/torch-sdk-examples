@@ -87,7 +87,7 @@ Min LP Tokens Out: ${
   const senderArgs = await sdk.getDepositPayload(sender, depositParams);
   const msgHash = await send(senderArgs);
   console.log('\n=== Transaction Details ===');
-  console.log(`🚀 Transaction sent successfully!`);
+  console.log(`🔄 Deposit transaction sent successfully!`);
   console.log(`📝 Message Hash: ${msgHash}`);
 }
 
