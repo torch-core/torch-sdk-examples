@@ -53,7 +53,9 @@ async function main() {
 
   // TODO: Simulate the swap payload
   console.log('\n=== Swap Simulation ===');
+  console.time('simulateSwap');
   const simulateResponse = await sdk.simulateSwap(swapParams);
+  console.timeEnd('simulateSwap');
 
   console.log(
     `
@@ -74,8 +76,12 @@ Min Amount Out: ${
 
   // Send Transaction and get msghash
   const sender = wallet.address;
+  console.time('getSwapPayload');
   const senderArgs = await sdk.getSwapPayload(sender, swapParams);
+  console.timeEnd('getSwapPayload');
+  console.time('send');
   const msgHash = await send(senderArgs);
+  console.timeEnd('send');
   console.log('\n=== Transaction Details ===');
   console.log(`🔄 Swap transaction sent successfully!`);
   console.log(`📝 Message Hash: ${msgHash}`);
