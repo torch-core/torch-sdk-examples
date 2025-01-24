@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Address } from '@ton/core';
 import './App.css';
 import {
@@ -36,12 +36,16 @@ function App() {
   const [tonconnectUI] = useTonConnectUI();
   const [loading, setLoading] = useState(false);
 
-  const sdk = new TorchSDK({
-    tonClient: new TonClient4({ endpoint: testnetEndpoint }),
-    factoryAddress: factoryAddress,
-    oracleEndpoint: testnetOracle,
-    apiEndpoint: testnetApi,
-  });
+  const sdk = useMemo(
+    () =>
+      new TorchSDK({
+        tonClient: new TonClient4({ endpoint: testnetEndpoint }),
+        factoryAddress: factoryAddress,
+        oracleEndpoint: testnetOracle,
+        apiEndpoint: testnetApi,
+      }),
+    []
+  );
 
   const sendTransaction = async (
     messages: Array<{ address: string; amount: string; payload?: string }>
@@ -74,7 +78,9 @@ function App() {
         slippageTolerance: 0.01, // 1%
       };
       const sender = Address.parse(wallet.account.address);
+      console.time('getSwapPayload');
       const swapPayload = await sdk.getSwapPayload(sender, swapParams);
+      console.timeEnd('getSwapPayload');
       const boc = await sendTransaction([
         {
           address: swapPayload.to.toString(),
@@ -97,6 +103,7 @@ function App() {
     }
     setLoading(true);
     try {
+      console.time('getDepositPayload');
       const depositParams: DepositParams = {
         queryId: await generateQueryId(),
         pool: BasePoolAddress,
@@ -124,6 +131,7 @@ function App() {
         sender,
         depositParams
       );
+      console.timeEnd('getDepositPayload');
       const boc = await sendTransaction(
         depositPayloads.map(p => ({
           address: p.to.toString(),
