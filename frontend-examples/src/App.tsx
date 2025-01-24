@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Address } from '@ton/core';
 import './App.css';
 import {
@@ -8,7 +9,6 @@ import {
 } from '@tonconnect/ui-react';
 import {
   TorchSDK,
-  TorchSDKOptions,
   DepositParams,
   WithdrawParams,
   SwapParams,
@@ -34,14 +34,24 @@ import {
 function App() {
   const wallet = useTonWallet();
   const [tonconnectUI] = useTonConnectUI();
+  const [loading, setLoading] = useState(false);
 
-  const config: TorchSDKOptions = {
+  const sdk = new TorchSDK({
     tonClient: new TonClient4({ endpoint: testnetEndpoint }),
     factoryAddress: factoryAddress,
     oracleEndpoint: testnetOracle,
     apiEndpoint: testnetApi,
+  });
+
+  const sendTransaction = async (
+    messages: Array<{ address: string; amount: string; payload?: string }>
+  ) => {
+    const { boc } = await tonconnectUI.sendTransaction({
+      validUntil: Date.now() + 1000 * 60, // 1 minute
+      messages,
+    });
+    return boc;
   };
-  const sdk = new TorchSDK(config);
 
   const onSwap = async () => {
     if (!wallet || !tonconnectUI.account) {
@@ -53,27 +63,31 @@ function App() {
       return;
     }
 
-    const swapParams: SwapParams = {
-      mode: 'ExactIn',
-      queryId: await generateQueryId(),
-      assetIn: TSTON_ASSET,
-      assetOut: STTON_ASSET,
-      amountIn: toUnit('0.01', 9), // 0.01 TON
-      slippageTolerance: 0.01, // 1%
-    };
-    const sender = Address.parse(wallet.account.address);
-    const swapPayload = await sdk.getSwapPayload(sender, swapParams);
-    const { boc } = await tonconnectUI.sendTransaction({
-      validUntil: Date.now() + 1000 * 60, // 1 minute
-      messages: [
+    setLoading(true);
+    try {
+      const swapParams: SwapParams = {
+        mode: 'ExactIn',
+        queryId: await generateQueryId(),
+        assetIn: TON_ASSET,
+        assetOut: TSTON_ASSET,
+        amountIn: toUnit('0.0001', 9), // 0.0001 TSTON
+        slippageTolerance: 0.01, // 1%
+      };
+      const sender = Address.parse(wallet.account.address);
+      const swapPayload = await sdk.getSwapPayload(sender, swapParams);
+      const boc = await sendTransaction([
         {
           address: swapPayload.to.toString(),
           amount: swapPayload.value.toString(),
-          payload: swapPayload.body ? swapPayload.body.toString() : undefined,
+          payload: swapPayload.body
+            ? swapPayload.body.toBoc().toString('base64')
+            : undefined,
         },
-      ],
-    });
-    alert(`Swap Request Sent, Message Hash: ${boc}`);
+      ]);
+      alert(`Swap Request Sent, Message Hash: ${boc}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onDeposit = async () => {
@@ -81,44 +95,46 @@ function App() {
       alert('Please connect your wallet');
       return;
     }
-    const depositParams: DepositParams = {
-      queryId: await generateQueryId(),
-      pool: BasePoolAddress,
-      depositAmounts: [
-        {
-          asset: TSTON_ASSET,
-          value: toUnit('0.1', 9),
+    setLoading(true);
+    try {
+      const depositParams: DepositParams = {
+        queryId: await generateQueryId(),
+        pool: BasePoolAddress,
+        depositAmounts: [
+          {
+            asset: TSTON_ASSET,
+            value: toUnit('1', 9), // 0.0000001 TSTON in TriTON pool
+          },
+          {
+            asset: STTON_ASSET,
+            value: toUnit('1', 9), // 0.0000001 STTON in TriTON pool
+          },
+          {
+            asset: TON_ASSET,
+            value: toUnit('1', 9), // 0.0000001 TON in TriTON pool
+          },
+        ],
+        nextDeposit: {
+          pool: MetaPoolAddress,
+          depositAmounts: { asset: HTON_ASSET, value: toUnit('1', 9) }, // 0.0000001 HTON in Meta USD pool
         },
-        {
-          asset: STTON_ASSET,
-          value: toUnit('0.1', 9),
-        },
-        {
-          asset: TON_ASSET,
-          value: toUnit('0.1', 9),
-        },
-      ],
-      nextDeposit: {
-        pool: MetaPoolAddress,
-        depositAmounts: {
-          asset: HTON_ASSET,
-          value: toUnit('0.1', 9),
-        },
-      },
-    };
-    const sender = Address.parse(wallet.account.address);
-    const depositPayloads = await sdk.getDepositPayload(sender, depositParams);
-    const { boc } = await tonconnectUI.sendTransaction({
-      validUntil: Date.now() + 1000 * 60, // 1 minute
-      messages: depositPayloads.map(p => {
-        return {
+      };
+      const sender = Address.parse(wallet.account.address);
+      const depositPayloads = await sdk.getDepositPayload(
+        sender,
+        depositParams
+      );
+      const boc = await sendTransaction(
+        depositPayloads.map(p => ({
           address: p.to.toString(),
           amount: p.value.toString(),
-          payload: p.body ? p.body.toString() : undefined,
-        };
-      }),
-    });
-    alert(`Deposit Request Sent, Message Hash: ${boc}`);
+          payload: p.body ? p.body.toBoc().toString('base64') : undefined,
+        }))
+      );
+      alert(`Deposit Request Sent, Message Hash: ${boc}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onWithdraw = async () => {
@@ -128,52 +144,66 @@ function App() {
     }
 
     // Remove 0.1 LP tokens from Meta Pool and then withdraw from Base Pool
-    const withdrawParams: WithdrawParams = {
-      mode: 'Single',
-      queryId: await generateQueryId(),
-      pool: MetaPoolAddress,
-      burnLpAmount: toUnit('0.01', 18),
-      nextWithdraw: {
-        mode: 'Balanced',
-        pool: BasePoolAddress,
-      },
-    };
-    const sender = Address.parse(wallet.account.address);
-    const withdrawPayload = await sdk.getWithdrawPayload(
-      sender,
-      withdrawParams
-    );
-    const { boc } = await tonconnectUI.sendTransaction({
-      validUntil: Date.now() + 1000 * 60, // 1 minute
-      messages: [
+    setLoading(true);
+    try {
+      const withdrawParams: WithdrawParams = {
+        mode: 'Single',
+        queryId: await generateQueryId(),
+        pool: MetaPoolAddress,
+        burnLpAmount: toUnit('0.000000088', 18),
+        nextWithdraw: {
+          mode: 'Balanced',
+          pool: BasePoolAddress,
+        },
+        slippageTolerance: 0.01, // 1%
+      };
+      const sender = Address.parse(wallet.account.address);
+      const withdrawPayload = await sdk.getWithdrawPayload(
+        sender,
+        withdrawParams
+      );
+      const boc = await sendTransaction([
         {
           address: withdrawPayload.to.toString(),
           amount: withdrawPayload.value.toString(),
           payload: withdrawPayload.body
-            ? withdrawPayload.body.toString()
+            ? withdrawPayload.body.toBoc().toString('base64')
             : undefined,
         },
-      ],
-    });
-    alert(`Withdraw Request Sent, Message Hash: ${boc}`);
+      ]);
+      alert(`Withdraw Request Sent, Message Hash: ${boc}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <>
-      <div className="flex justify-end items-end">
+    <div className="app-container">
+      <div className="header">
         <TonConnectButton />
       </div>
       <h1>Tonconnect x Torch SDK</h1>
-      <div className="card">
-        <button onClick={onDeposit}>Deposit 0.3 TON to LSD Pool</button>
+      <div className="card-container">
+        <div className="card">
+          <button onClick={onDeposit} disabled={loading}>
+            {loading ? 'Processing...' : 'Deposit 0.3 TON to LSD Pool'}
+            {loading && <span className="spinner"></span>}
+          </button>
+        </div>
+        <div className="card">
+          <button onClick={onSwap} disabled={loading}>
+            {loading ? 'Processing...' : 'Swap 0.01 TON to tsTON'}
+            {loading && <span className="spinner"></span>}
+          </button>
+        </div>
+        <div className="card">
+          <button onClick={onWithdraw} disabled={loading}>
+            {loading ? 'Processing...' : 'Withdraw 0.01 TON from LSD Pool'}
+            {loading && <span className="spinner"></span>}
+          </button>
+        </div>
       </div>
-      <div className="card">
-        <button onClick={onSwap}>Swap 0.01 TON to tsTON</button>
-      </div>
-      <div className="card">
-        <button onClick={onWithdraw}>Withdraw 0.01 TON from LSD Pool</button>
-      </div>
-    </>
+    </div>
   );
 }
 
