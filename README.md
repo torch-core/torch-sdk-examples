@@ -23,7 +23,7 @@ Before you begin, ensure you have the following installed:
    Run the following command to install the necessary dependencies:
 
    ```bash
-   yarn install
+   pnpm install
    ```
 
 3. **Backend Environment Configuration**

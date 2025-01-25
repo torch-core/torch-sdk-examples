@@ -74,7 +74,7 @@ function App() {
         queryId: await generateQueryId(),
         assetIn: TON_ASSET,
         assetOut: TSTON_ASSET,
-        amountIn: toUnit('0.0001', 9), // 0.0001 TSTON
+        amountIn: toUnit('0.1', 9), // 0.1 TSTON
         slippageTolerance: 0.01, // 1%
       };
       const sender = Address.parse(wallet.account.address);
@@ -110,20 +110,20 @@ function App() {
         depositAmounts: [
           {
             asset: TSTON_ASSET,
-            value: toUnit('1', 9), // 0.0000001 TSTON in TriTON pool
+            value: toUnit('0.1', 9), // 0.1 TSTON in TriTON pool
           },
           {
             asset: STTON_ASSET,
-            value: toUnit('1', 9), // 0.0000001 STTON in TriTON pool
+            value: toUnit('0.1', 9), // 0.1 STTON in TriTON pool
           },
           {
             asset: TON_ASSET,
-            value: toUnit('1', 9), // 0.0000001 TON in TriTON pool
+            value: toUnit('0.1', 9), // 0.1 TON in TriTON pool
           },
         ],
         nextDeposit: {
           pool: MetaPoolAddress,
-          depositAmounts: { asset: HTON_ASSET, value: toUnit('1', 9) }, // 0.0000001 HTON in Meta USD pool
+          depositAmounts: { asset: HTON_ASSET, value: toUnit('0.1', 9) }, // 0.1 HTON in Meta USD pool
         },
       };
       const sender = Address.parse(wallet.account.address);
@@ -151,14 +151,14 @@ function App() {
       return;
     }
 
-    // Remove 0.1 LP tokens from Meta Pool and then withdraw from Base Pool
+    // Remove 0.000001 LP tokens from Meta Pool and then withdraw from Base Pool
     setLoading(true);
     try {
       const withdrawParams: WithdrawParams = {
         mode: 'Single',
         queryId: await generateQueryId(),
         pool: MetaPoolAddress,
-        burnLpAmount: toUnit('0.000000088', 18),
+        burnLpAmount: toUnit('0.000001', 18),
         nextWithdraw: {
           mode: 'Balanced',
           pool: BasePoolAddress,
@@ -194,19 +194,19 @@ function App() {
       <div className="card-container">
         <div className="card">
           <button onClick={onDeposit} disabled={loading}>
-            {loading ? 'Processing...' : 'Deposit 0.3 TON to LSD Pool'}
+            {loading ? 'Processing...' : 'Deposit 0.1 TON to LSD Pool'}
             {loading && <span className="spinner"></span>}
           </button>
         </div>
         <div className="card">
           <button onClick={onSwap} disabled={loading}>
-            {loading ? 'Processing...' : 'Swap 0.01 TON to tsTON'}
+            {loading ? 'Processing...' : 'Swap 0.1 TON to tsTON'}
             {loading && <span className="spinner"></span>}
           </button>
         </div>
         <div className="card">
           <button onClick={onWithdraw} disabled={loading}>
-            {loading ? 'Processing...' : 'Withdraw 0.01 TON from LSD Pool'}
+            {loading ? 'Processing...' : 'Withdraw 0.000001 LP from LSD Pool'}
             {loading && <span className="spinner"></span>}
           </button>
         </div>
