@@ -71,8 +71,14 @@ async function main() {
     slippageTolerance: 0.01, // 1%
   };
 
+  let start: number;
+  let end: number;
+
   console.log('\n=== Deposit Simulation ===');
+  start = performance.now();
   const simulateResponse = await sdk.simulateDeposit(depositParams);
+  end = performance.now();
+  console.log(`Time taken (Simulate Deposit): ${end - start} milliseconds`);
 
   console.log(
     `
@@ -87,10 +93,13 @@ Min LP Tokens Out: ${
 
   // We can easily send the deposit transaction with simulateResponse
   const sender = wallet.address;
+  start = performance.now();
   const senderArgsFromSimulateResponse =
     await simulateResponse.getDepositPayload(sender, {
       blockNumber: blockNumber,
     });
+  end = performance.now();
+  console.log(`Time taken (Get Deposit Payload): ${end - start} milliseconds`);
 
   // Or, we can get the senderArgs from sdk.getDepositPayload
   // const senderArgs = await sdk.getDepositPayload(sender, depositParams);
