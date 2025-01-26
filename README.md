@@ -68,11 +68,61 @@ The repository includes several example scripts located in the `src` directory. 
 
   This script demonstrates how to perform a withdrawal using the Torch SDK.
 
-## Example Files
+## Backend Metrics
 
-- `src/backend-examples/deposit.ts`: Demonstrates how to perform a deposit.
-- `src/backend-examples/swap.ts`: Demonstrates how to perform a token swap.
-- `src/backend-examples/withdraw.ts`: Demonstrates how to perform a withdrawal.
+### Swap Simulation
+
+| Metric                            | Value                     |
+| --------------------------------- | ------------------------- |
+| **Time taken (Simulate Swap)**    | 296.529 ms                |
+| **Execution Price**               | 1 tsTON = 1.047109454 TON |
+| **Amount In**                     | 100,000                   |
+| **Expected Amount Out**           | 95,501                    |
+| **Min Amount Out**                | 94,546                    |
+| **Time taken (Get Swap Payload)** | 186.702 ms                |
+
+---
+
+### Deposit Simulation
+
+| Metric                               | Value                      |
+| ------------------------------------ | -------------------------- |
+| **Time taken (Simulate Deposit)**    | 616.181 ms                 |
+| **LP Tokens Out**                    | 404,628,733,123            |
+| **LP Total Supply After**            | 28,728,645,606,451,934,746 |
+| **Min LP Tokens Out**                | 400,582,445,792            |
+| **Time taken (Get Deposit Payload)** | 295.415 ms                 |
+
+---
+
+### Withdraw Simulation
+
+| Metric                             | Value          |
+| ---------------------------------- | -------------- |
+| **Time taken (Simulate Withdraw)** | 525.559 ms     |
+| **LP Tokens to Burn**              | 88,000,000,000 |
+
+#### Expected Output
+
+| Address                                            | Amount         |
+| -------------------------------------------------- | -------------- |
+| `EQCEao02tugbZjudFRMfyu2s_nVZli7F_rgxC1OjdvXpsBsw` | 93,978,182,838 |
+| **TON**                                            | 30             |
+| `EQA5rOnkPx8xTWvSjKAqEkdLOIM0-IyT_u-5IEQ5R2y9m-36` | 30             |
+| `EQBbKadthJqQfnEsijYFvi25AKGDhS3CTVAf8oGZYwGk8G8W` | 30             |
+
+#### Minimum Output (with slippage)
+
+| Address                                            | Amount         |
+| -------------------------------------------------- | -------------- |
+| `EQCEao02tugbZjudFRMfyu2s_nVZli7F_rgxC1OjdvXpsBsw` | 93,038,401,010 |
+| **TON**                                            | 30             |
+| `EQA5rOnkPx8xTWvSjKAqEkdLOIM0-IyT_u-5IEQ5R2y9m-36` | 30             |
+| `EQBbKadthJqQfnEsijYFvi25AKGDhS3CTVAf8oGZYwGk8G8W` | 30             |
+
+| Metric                                | Value      |
+| ------------------------------------- | ---------- |
+| **Time taken (Get Withdraw Payload)** | 250.554 ms |
 
 ## Running Frontend Examples
 
