@@ -14,6 +14,7 @@ export default defineConfig({
       protocolImports: true,
     }),
   ],
+  base: '/torch-sdk-examples/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
