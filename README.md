@@ -6,7 +6,7 @@ This repository contains examples demonstrating how to use the Torch Finance SDK
 
 Before you begin, ensure you have the following installed:
 
-- Node.js (>= 18.17.0)
+- Node.js (>= 22.12.0)
 - pnpm (>= 10.0.0)
 
 ## Setup
