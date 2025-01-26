@@ -19,6 +19,10 @@ import { AssetType } from '@torch-finance/core';
 
 configDotenv({ path: '../.env' });
 
+
+// If you want to speed up the swap process, you can set the blockNumber to reduce the number of queries
+const blockNumber = 27495602;
+
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
   const sdk = new TorchSDK({
@@ -55,9 +59,14 @@ async function main() {
     slippageTolerance: 0.01, // 1%
   };
 
-  // TODO: Simulate the withdraw payload
   console.log('\n=== Withdraw Simulation ===');
+  let start: number;
+  let end: number;
+
+  start = performance.now();
   const simulateResponse = await sdk.simulateWithdraw(withdrawParams);
+  end = performance.now();
+  console.log(`Time taken (Simulate Withdraw): ${end - start} milliseconds`);
 
   console.log(
     `
@@ -91,8 +100,18 @@ ${
 
   // Get BoC and Send Transaction (Assume wallet is connected and account is set)
   const sender = wallet.address;
-  const senderArgs = await sdk.getWithdrawPayload(sender, withdrawParams);
+  start = performance.now();
+  const senderArgs = await simulateResponse.getWithdrawPayload(
+    sender,
+    { blockNumber: blockNumber }
+  );
+  end = performance.now();
+  console.log(`Time taken (Get Withdraw Payload): ${end - start} milliseconds`);
 
+  // Or, we can get the senderArgs from sdk.getWithdrawPayload
+  // const senderArgs = await sdk.getWithdrawPayload(sender, withdrawParams);
+
+  // Send Transaction
   const msgHash = await send(senderArgs);
   console.log('\n=== Transaction Details ===');
   console.log(`🔄 Withdraw transaction sent successfully!`);

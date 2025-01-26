@@ -7,7 +7,7 @@ This repository contains examples demonstrating how to use the Torch Finance SDK
 Before you begin, ensure you have the following installed:
 
 - Node.js (>= 18.17.0)
-- Yarn (>= 4.5.0)
+- pnpm (>= 10.0.0)
 
 ## Setup
 
@@ -43,7 +43,7 @@ The repository includes several example scripts located in the `src` directory. 
   To run the deposit example, execute:
 
   ```bash
-  yarn workspace backend-examples deposit
+  pnpm --filter backend-examples deposit
   ```
 
   This script demonstrates how to perform a deposit using the Torch SDK.
@@ -53,7 +53,7 @@ The repository includes several example scripts located in the `src` directory. 
   To run the swap example, execute:
 
   ```bash
-  yarn workspace backend-examples swap
+  pnpm --filter backend-examples swap
   ```
 
   This script demonstrates how to perform a token swap using the Torch SDK.
@@ -63,7 +63,7 @@ The repository includes several example scripts located in the `src` directory. 
   To run the withdraw example, execute:
 
   ```bash
-  yarn workspace backend-examples withdraw
+  pnpm --filter backend-examples withdraw
   ```
 
   This script demonstrates how to perform a withdrawal using the Torch SDK.
