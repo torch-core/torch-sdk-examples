@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, createContext, useEffect } from 'react';
 import { Address } from '@ton/core';
 import './App.css';
 import {
@@ -31,12 +31,61 @@ import {
   HTON_ASSET,
 } from '../../backend-examples/config';
 
+interface LastBlockContextType {
+  lastSeqno: number | null;
+}
+
+const LastBlockContext = createContext<LastBlockContextType>({
+  lastSeqno: null,
+});
+
+function useLastBlock(tonClient: TonClient4) {
+  const [lastSeqno, setLastSeqno] = useState<number | null>(null);
+  const [initialLoading, setInitialLoading] = useState(true);
+
+  useEffect(() => {
+    const intervalId: NodeJS.Timeout = setInterval(async () => {
+      try {
+        const lastBlock = await tonClient.getLastBlock();
+        setLastSeqno(lastBlock.last.seqno);
+      } catch (error) {
+        console.error('Error fetching last block:', error);
+      }
+    }, 5000);
+
+    // Initial fetch
+    (async () => {
+      try {
+        const lastBlock = await tonClient.getLastBlock();
+        setLastSeqno(lastBlock.last.seqno);
+        setInitialLoading(false);
+      } catch (error) {
+        console.error('Error fetching last block:', error);
+        setInitialLoading(false);
+      }
+    })();
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [tonClient]);
+
+  return { lastSeqno, initialLoading };
+}
+
 function App() {
   const wallet = useTonWallet();
   const [tonconnectUI] = useTonConnectUI();
   const [loading, setLoading] = useState(false);
 
   const blockNumber = 27495602;
+
+  const tonClient = useMemo(
+    () => new TonClient4({ endpoint: testnetEndpoint }),
+    []
+  );
+
+  const { lastSeqno, initialLoading } = useLastBlock(tonClient);
 
   const sdk = useMemo(
     () =>
@@ -196,32 +245,41 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <div className="header">
-        <TonConnectButton />
+    <LastBlockContext.Provider value={{ lastSeqno }}>
+      <div className="app-container">
+        <div className="header">
+          <TonConnectButton />
+          {lastSeqno && <div className="seqno">Block: {lastSeqno}</div>}
+        </div>
+        <h1>Tonconnect x Torch SDK</h1>
+        <div className="card-container">
+          <div className="card">
+            <button onClick={onDeposit} disabled={loading || initialLoading}>
+              {loading || initialLoading
+                ? 'Processing...'
+                : 'Deposit 0.1 TON to LSD Pool'}
+              {loading && <span className="spinner"></span>}
+            </button>
+          </div>
+          <div className="card">
+            <button onClick={onSwap} disabled={loading || initialLoading}>
+              {loading || initialLoading
+                ? 'Processing...'
+                : 'Swap 0.1 TON to tsTON'}
+              {loading && <span className="spinner"></span>}
+            </button>
+          </div>
+          <div className="card">
+            <button onClick={onWithdraw} disabled={loading || initialLoading}>
+              {loading || initialLoading
+                ? 'Processing...'
+                : 'Withdraw 0.000001 LP from LSD Pool'}
+              {loading && <span className="spinner"></span>}
+            </button>
+          </div>
+        </div>
       </div>
-      <h1>Tonconnect x Torch SDK</h1>
-      <div className="card-container">
-        <div className="card">
-          <button onClick={onDeposit} disabled={loading}>
-            {loading ? 'Processing...' : 'Deposit 0.1 TON to LSD Pool'}
-            {loading && <span className="spinner"></span>}
-          </button>
-        </div>
-        <div className="card">
-          <button onClick={onSwap} disabled={loading}>
-            {loading ? 'Processing...' : 'Swap 0.1 TON to tsTON'}
-            {loading && <span className="spinner"></span>}
-          </button>
-        </div>
-        <div className="card">
-          <button onClick={onWithdraw} disabled={loading}>
-            {loading ? 'Processing...' : 'Withdraw 0.000001 LP from LSD Pool'}
-            {loading && <span className="spinner"></span>}
-          </button>
-        </div>
-      </div>
-    </div>
+    </LastBlockContext.Provider>
   );
 }
 
