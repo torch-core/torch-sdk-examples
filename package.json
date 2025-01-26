@@ -1,5 +1,6 @@
 {
   "name": "torch-sdk-examples",
+  "packageManager": "pnpm@10.0.0",
   "engines": {
     "node": ">=18.17.0"
   },

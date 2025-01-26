@@ -1,40 +1,40 @@
-name: Deploy to GitHub Pages
-
+name: Build Site
 on:
   push:
     branches:
       - main
+  release:
+    types: [published]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build Site
     permissions:
       contents: write
-
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
 
-      - name: Enable corepack and set Yarn to v4
-        run: |
-          corepack enable
-          corepack prepare yarn@4.5.0 --activate
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies
-        run: |
-          yarn install --frozen-lockfile
-          yarn workspace frontend-examples install --frozen-lockfile
-
-      - name: Build project
-        run: yarn workspace frontend-examples build
+      - name: Build
+        run: pnpm --filter frontend-examples build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./frontend-examples/dist
