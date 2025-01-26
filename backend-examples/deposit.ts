@@ -22,6 +22,9 @@ import { getWalletV5 } from './wallets';
 
 configDotenv({ path: '../.env' });
 
+// If you want to speed up the deposit process, you can set the blockNumber to reduce the number of queries (Dramatically)
+const blockNumber = 27495602;
+
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
   const config = {
@@ -50,42 +53,50 @@ async function main() {
     depositAmounts: [
       {
         asset: TSTON_ASSET,
-        value: toUnit('1', 9), // 0.0000001 TSTON in TriTON pool
+        value: toUnit('0.0000001', 9), // 0.0000001 TSTON in TriTON pool
       },
       {
         asset: STTON_ASSET,
-        value: toUnit('1', 9), // 0.0000001 STTON in TriTON pool
+        value: toUnit('0.0000001', 9), // 0.0000001 STTON in TriTON pool
       },
       {
         asset: TON_ASSET,
-        value: toUnit('1', 9), // 0.0000001 TON in TriTON pool
+        value: toUnit('0.0000001', 9), // 0.0000001 TON in TriTON pool
       },
     ],
     nextDeposit: {
       pool: MetaPoolAddress,
-      depositAmounts: { asset: HTON_ASSET, value: toUnit('1', 9) }, // 0.0000001 HTON in Meta USD pool
+      depositAmounts: { asset: HTON_ASSET, value: toUnit('0.0000001', 9) }, // 0.0000001 HTON in Meta USD pool
     },
+    slippageTolerance: 0.01, // 1%
   };
 
-  // TODO: Simulate the deposit payload
   console.log('\n=== Deposit Simulation ===');
   const simulateResponse = await sdk.simulateDeposit(depositParams);
 
   console.log(
     `
-LP Tokens Out: ${simulateResponse.lpTokenOut.toString()}
-LP Total Supply After: ${simulateResponse.lpTotalSupplyAfter.toString()}
+LP Tokens Out: ${simulateResponse.result.lpTokenOut.toString()}
+LP Total Supply After: ${simulateResponse.result.lpTotalSupplyAfter.toString()}
 Min LP Tokens Out: ${
-      simulateResponse.minLpTokenOut?.toString() ||
+      simulateResponse.result.minLpTokenOut?.toString() ||
       '(You did not specify slippage tolerance)'
     }
   `
   );
 
-  // Get BoC and Send Transaction
+  // We can easily send the deposit transaction with simulateResponse
   const sender = wallet.address;
-  const senderArgs = await sdk.getDepositPayload(sender, depositParams);
-  const msgHash = await send(senderArgs);
+  const senderArgsFromSimulateResponse =
+    await simulateResponse.getDepositPayload(sender, {
+      blockNumber: blockNumber,
+    });
+
+  // Or, we can get the senderArgs from sdk.getDepositPayload
+  // const senderArgs = await sdk.getDepositPayload(sender, depositParams);
+
+  // Send Transaction
+  const msgHash = await send(senderArgsFromSimulateResponse);
   console.log('\n=== Transaction Details ===');
   console.log(`🔄 Deposit transaction sent successfully!`);
   console.log(`📝 Message Hash: ${msgHash}`);

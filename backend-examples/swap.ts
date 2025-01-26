@@ -18,6 +18,9 @@ import {
 import { getWalletV5 } from './wallets';
 configDotenv({ path: '../.env' });
 
+// If you want to speed up the swap process, you can set the blockNumber to reduce the number of queries
+const blockNumber = 27495602;
+
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
   const config: TorchSDKOptions = {
@@ -34,14 +37,12 @@ async function main() {
   }
 
   // Get Wallet and Send Function (Using Highload Wallet, suitable for high frequency service)
-  // const { wallet, send } = await getHighloadWalletV3(tonClient, mnemonic);
   const { wallet, send } = await getWalletV5(tonClient, mnemonic);
 
   // Recommend to generate queryId before sending transaction
-  // const queryId = getHighloadQueryId();
   const queryId = await generateQueryId();
 
-  // Exchange 0.01 TON for tsTON
+  // Swap 0.0001 TSTON for TON
   const swapParams: SwapParams = {
     mode: 'ExactIn',
     queryId: queryId,
@@ -51,31 +52,50 @@ async function main() {
     slippageTolerance: 0.01, // 1%
   };
 
-  // TODO: Simulate the swap payload
+  let start: number;
+  let end: number;
+
   console.log('\n=== Swap Simulation ===');
+  start = performance.now();
   const simulateResponse = await sdk.simulateSwap(swapParams);
+  end = performance.now();
+  console.log(`Time taken (Simulate Swap): ${end - start} milliseconds`);
 
   console.log(
     `
+Execution Price: 1 tsTON = ${simulateResponse.result.executionPrice} TON
 Amount In: ${swapParams.amountIn.toString()}
 Expected Amount Out: ${
-      simulateResponse.mode === 'ExactIn'
-        ? simulateResponse.amountOut.toString()
+      simulateResponse.result.mode === 'ExactIn'
+        ? simulateResponse.result.amountOut.toString()
         : 'N/A'
     }
-Execution Price: 1 tsTON = ${simulateResponse.executionPrice} TON
-
 Min Amount Out: ${
-      simulateResponse.minAmountOut?.toString() ||
+      simulateResponse.result.minAmountOut?.toString() ||
       '(No slippage tolerance specified)'
     }
 `
   );
 
-  // Send Transaction and get msghash
   const sender = wallet.address;
-  const senderArgs = await sdk.getSwapPayload(sender, swapParams);
-  const msgHash = await send(senderArgs);
+
+  // We can easily send the swap transaction with simulateResponse
+  start = performance.now();
+  const senderArgsFromSimulateResponse = await simulateResponse.getSwapPayload(
+    sender,
+    { blockNumber: blockNumber }
+  );
+  end = performance.now();
+  console.log(`Time taken (Get Swap Payload): ${end - start} milliseconds`);
+
+  const msgHash = await send(senderArgsFromSimulateResponse);
+
+  // Or, we can send transaction directly with sdk.getSwapPayload and get msghash
+  // const senderArgs = await sdk.getSwapPayload(sender, swapParams, {
+  //   blockNumber: blockNumber,
+  // });
+  // const msgHash = await send(senderArgs);
+
   console.log('\n=== Transaction Details ===');
   console.log(`🔄 Swap transaction sent successfully!`);
   console.log(`📝 Message Hash: ${msgHash}`);
