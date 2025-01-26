@@ -64,7 +64,7 @@ async function main() {
 LP Tokens to Burn: ${withdrawParams.burnLpAmount.toString()}
 
 === Expected Output ===
-${simulateResponse.amountOuts
+${simulateResponse.result.amountOuts
   .map(
     token =>
       `${
@@ -75,7 +75,7 @@ ${simulateResponse.amountOuts
 
 === Minimum Output (with slippage) ===
 ${
-  simulateResponse.minAmountOuts
+  simulateResponse.result.minAmountOuts
     ?.map(
       token =>
         `${

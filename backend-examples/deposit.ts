@@ -27,13 +27,13 @@ const blockNumber = 27495602;
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
-  const config = {
-    client: tonClient,
+
+  const sdk = new TorchSDK({
+    tonClient: tonClient,
     factoryAddress: factoryAddress,
     oracleEndpoint: testnetOracle,
-    indexerEndpoint: testnetApi,
-  };
-  const sdk = new TorchSDK(config);
+    apiEndpoint: testnetApi,
+  });
 
   const mnemonic = process.env.WALLET_MNEMONIC?.split(' ');
   if (!mnemonic) {
