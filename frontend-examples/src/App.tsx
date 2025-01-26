@@ -36,6 +36,8 @@ function App() {
   const [tonconnectUI] = useTonConnectUI();
   const [loading, setLoading] = useState(false);
 
+  const blockNumber = 27495602;
+
   const sdk = useMemo(
     () =>
       new TorchSDK({
@@ -79,7 +81,9 @@ function App() {
       };
       const sender = Address.parse(wallet.account.address);
       console.time('getSwapPayload');
-      const swapPayload = await sdk.getSwapPayload(sender, swapParams);
+      const swapPayload = await sdk.getSwapPayload(sender, swapParams, {
+        blockNumber: blockNumber,
+      });
       console.timeEnd('getSwapPayload');
       const boc = await sendTransaction([
         {
@@ -129,7 +133,10 @@ function App() {
       const sender = Address.parse(wallet.account.address);
       const depositPayloads = await sdk.getDepositPayload(
         sender,
-        depositParams
+        depositParams,
+        {
+          blockNumber: blockNumber,
+        }
       );
       console.timeEnd('getDepositPayload');
       const boc = await sendTransaction(
@@ -168,7 +175,10 @@ function App() {
       const sender = Address.parse(wallet.account.address);
       const withdrawPayload = await sdk.getWithdrawPayload(
         sender,
-        withdrawParams
+        withdrawParams,
+        {
+          blockNumber: blockNumber,
+        }
       );
       const boc = await sendTransaction([
         {
