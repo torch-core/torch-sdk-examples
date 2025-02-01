@@ -57,22 +57,19 @@ async function main() {
 
   console.log('\n=== Swap Simulation ===');
   start = performance.now();
-  const simulateResponse = await sdk.simulateSwap(swapParams);
+  const { result, getSwapPayload } = await sdk.simulateSwap(swapParams);
   end = performance.now();
   console.log(`Time taken (Simulate Swap): ${end - start} milliseconds`);
 
   console.log(
     `
-Execution Price: 1 tsTON = ${simulateResponse.result.executionPrice} TON
+Execution Price: 1 tsTON = ${result.executionPrice} TON
 Amount In: ${swapParams.amountIn.toString()}
 Expected Amount Out: ${
-      simulateResponse.result.mode === 'ExactIn'
-        ? simulateResponse.result.amountOut.toString()
-        : 'N/A'
+      result.mode === 'ExactIn' ? result.amountOut.toString() : 'N/A'
     }
 Min Amount Out: ${
-      simulateResponse.result.minAmountOut?.toString() ||
-      '(No slippage tolerance specified)'
+      result.minAmountOut?.toString() || '(No slippage tolerance specified)'
     }
 `
   );
@@ -81,14 +78,13 @@ Min Amount Out: ${
 
   // We can easily send the swap transaction with simulateResponse
   start = performance.now();
-  const senderArgsFromSimulateResponse = await simulateResponse.getSwapPayload(
-    sender,
-    { blockNumber: blockNumber }
-  );
+  const senderArgs = await getSwapPayload(sender, {
+    blockNumber: blockNumber,
+  });
   end = performance.now();
   console.log(`Time taken (Get Swap Payload): ${end - start} milliseconds`);
 
-  const msgHash = await send(senderArgsFromSimulateResponse);
+  const msgHash = await send(senderArgs);
 
   // Or, we can send transaction directly with sdk.getSwapPayload and get msghash
   // const senderArgs = await sdk.getSwapPayload(sender, swapParams, {

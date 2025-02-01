@@ -76,28 +76,22 @@ async function main() {
 
   console.log('\n=== Deposit Simulation ===');
   start = performance.now();
-  const simulateResponse = await sdk.simulateDeposit(depositParams);
+  const { result, getDepositPayload } = await sdk.simulateDeposit(
+    depositParams
+  );
   end = performance.now();
   console.log(`Time taken (Simulate Deposit): ${end - start} milliseconds`);
 
-  console.log(
-    `
-LP Tokens Out: ${simulateResponse.result.lpTokenOut.toString()}
-LP Total Supply After: ${simulateResponse.result.lpTotalSupplyAfter.toString()}
-Min LP Tokens Out: ${
-      simulateResponse.result.minLpTokenOut?.toString() ||
-      '(You did not specify slippage tolerance)'
-    }
-  `
-  );
+  console.log(`LP Tokens Out: ${result.lpTokenOut.toString()}`);
+  console.log(`LP Total Supply After: ${result.lpTotalSupplyAfter.toString()}`);
+  console.log(`Min LP Tokens Out: ${result.minLpTokenOut?.toString() || '(You did not specify slippage tolerance)'}`); // prettier-ignore
 
   // We can easily send the deposit transaction with simulateResponse
   const sender = wallet.address;
   start = performance.now();
-  const senderArgsFromSimulateResponse =
-    await simulateResponse.getDepositPayload(sender, {
-      blockNumber: blockNumber,
-    });
+  const senderArgs = await getDepositPayload(sender, {
+    blockNumber: blockNumber,
+  });
   end = performance.now();
   console.log(`Time taken (Get Deposit Payload): ${end - start} milliseconds`);
 
@@ -105,7 +99,7 @@ Min LP Tokens Out: ${
   // const senderArgs = await sdk.getDepositPayload(sender, depositParams);
 
   // Send Transaction
-  const msgHash = await send(senderArgsFromSimulateResponse);
+  const msgHash = await send(senderArgs);
   console.log('\n=== Transaction Details ===');
   console.log(`🔄 Deposit transaction sent successfully!`);
   console.log(`📝 Message Hash: ${msgHash}`);

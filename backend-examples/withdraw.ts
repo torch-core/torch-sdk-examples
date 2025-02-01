@@ -19,7 +19,6 @@ import { AssetType } from '@torch-finance/core';
 
 configDotenv({ path: '../.env' });
 
-
 // If you want to speed up the swap process, you can set the blockNumber to reduce the number of queries
 const blockNumber = 27495602;
 
@@ -64,7 +63,9 @@ async function main() {
   let end: number;
 
   start = performance.now();
-  const simulateResponse = await sdk.simulateWithdraw(withdrawParams);
+  const { result, getWithdrawPayload } = await sdk.simulateWithdraw(
+    withdrawParams
+  );
   end = performance.now();
   console.log(`Time taken (Simulate Withdraw): ${end - start} milliseconds`);
 
@@ -73,7 +74,7 @@ async function main() {
 LP Tokens to Burn: ${withdrawParams.burnLpAmount.toString()}
 
 === Expected Output ===
-${simulateResponse.result.amountOuts
+${result.amountOuts
   .map(
     token =>
       `${
@@ -84,7 +85,7 @@ ${simulateResponse.result.amountOuts
 
 === Minimum Output (with slippage) ===
 ${
-  simulateResponse.result.minAmountOuts
+  result.minAmountOuts
     ?.map(
       token =>
         `${
@@ -101,10 +102,9 @@ ${
   // Get BoC and Send Transaction (Assume wallet is connected and account is set)
   const sender = wallet.address;
   start = performance.now();
-  const senderArgs = await simulateResponse.getWithdrawPayload(
-    sender,
-    { blockNumber: blockNumber }
-  );
+  const senderArgs = await getWithdrawPayload(sender, {
+    blockNumber: blockNumber,
+  });
   end = performance.now();
   console.log(`Time taken (Get Withdraw Payload): ${end - start} milliseconds`);
 
