@@ -1,19 +1,7 @@
 import { TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
-import {
-  factoryAddress,
-  BasePoolAddress,
-  MetaPoolAddress,
-  testnetEndpoint,
-  testnetApi,
-  testnetOracle,
-} from './config';
-import {
-  generateQueryId,
-  WithdrawParams,
-  TorchSDK,
-  toUnit,
-} from '@torch-finance/sdk';
+import { factoryAddress, BasePoolAddress, MetaPoolAddress, testnetEndpoint, testnetApi, testnetOracle } from './config';
+import { generateQueryId, WithdrawParams, TorchSDK, toUnit } from '@torch-finance/sdk';
 import { createWalletV5 } from '@torch-finance/wallet-utils';
 import { AssetType } from '@torch-finance/core';
 
@@ -63,41 +51,30 @@ async function main() {
   let end: number;
 
   start = performance.now();
-  const { result, getWithdrawPayload } = await sdk.simulateWithdraw(
-    withdrawParams
-  );
+  const { result, getWithdrawPayload } = await sdk.simulateWithdraw(withdrawParams);
   end = performance.now();
+
+  console.log(`\nLP Tokens to Burn: ${withdrawParams.burnLpAmount.toString()}`);
+
+  console.log('=== Expected Output ===');
+  result.amountOuts.forEach(token => {
+    console.log(
+      `${token.asset.type === AssetType.JETTON ? token.asset.jettonMaster : 'TON'}: ${token.value.toString()}`
+    );
+  });
+
+  console.log('=== Minimum Output (with slippage) ===');
+  if (result.minAmountOuts) {
+    result.minAmountOuts.forEach(token => {
+      console.log(
+        `${token.asset.type === AssetType.JETTON ? token.asset.jettonMaster : 'TON'}: ${token.value.toString()}`
+      );
+    });
+  } else {
+    console.log('(No slippage tolerance specified)');
+  }
+
   console.log(`Time taken (Simulate Withdraw): ${end - start} milliseconds`);
-
-  console.log(
-    `
-LP Tokens to Burn: ${withdrawParams.burnLpAmount.toString()}
-
-=== Expected Output ===
-${result.amountOuts
-  .map(
-    token =>
-      `${
-        token.asset.type === AssetType.JETTON ? token.asset.jettonMaster : 'TON'
-      }: ${token.value.toString()}`
-  )
-  .join('\n')}
-
-=== Minimum Output (with slippage) ===
-${
-  result.minAmountOuts
-    ?.map(
-      token =>
-        `${
-          token.asset.type === AssetType.JETTON
-            ? token.asset.jettonMaster
-            : 'TON'
-        }: ${token.value.toString()}`
-    )
-    .join('\n') || '(No slippage tolerance specified)'
-}
-`
-  );
 
   // Get BoC and Send Transaction (Assume wallet is connected and account is set)
   const sender = wallet.address;

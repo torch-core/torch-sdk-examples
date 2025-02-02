@@ -7,7 +7,7 @@
     "withdraw": "tsx withdraw.ts"
   },
   "dependencies": {
-    "@torch-finance/wallet-utils": "^0.1.4",
+    "@torch-finance/wallet-utils": "^0.1.6",
     "tsx": "^4.19.2"
   }
 }

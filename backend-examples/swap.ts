@@ -30,14 +30,14 @@ async function main() {
     throw new Error('WALLET_MNEMONIC is not set in .env');
   }
 
-  const { wallet, send, deploy } = await createHighloadWalletV3(tonClient, mnemonic);
+  const { wallet, send, deploy } = await createHighloadWalletV3(tonClient, mnemonic, { timeout: 120 });
 
   if (await tonClient.isContractDeployed(blockNumber, wallet.address)) {
     console.log('Wallet already deployed');
   } else {
     const { wallet: walletV5, keyPair } = await createWalletV5(tonClient, mnemonic, 'testnet');
     const secretKey = Buffer.from(keyPair.secretKey);
-    await deploy(walletV5.sender(secretKey), toNano('0.1'));
+    await deploy(walletV5.sender(secretKey), toNano('0.5'));
     console.log(`Highload wallet deployed at ${wallet.address}`);
   }
 
@@ -77,10 +77,7 @@ async function main() {
   end = performance.now();
   console.log(`Time taken (Get Swap Payload): ${end - start} milliseconds`);
 
-  const msgHash = await send(senderArgs, highloadQueryId, {
-    verbose: true,
-    on_fail: () => {},
-  });
+  const msgHash = await send(senderArgs, highloadQueryId, { verbose: true });
 
   // Or, we can send transaction directly with sdk.getSwapPayload and get msghash
   // const senderArgs = await sdk.getSwapPayload(sender, swapParams, {
