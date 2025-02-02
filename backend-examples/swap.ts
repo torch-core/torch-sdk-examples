@@ -15,7 +15,7 @@ import {
   generateQueryId,
   toUnit,
 } from '@torch-finance/sdk';
-import { getWalletV5 } from './wallets';
+import { createWalletV5 } from '@torch-finance/wallet-utils';
 configDotenv({ path: '../.env' });
 
 // If you want to speed up the swap process, you can set the blockNumber to reduce the number of queries
@@ -36,8 +36,7 @@ async function main() {
     throw new Error('WALLET_MNEMONIC is not set in .env');
   }
 
-  // Get Wallet and Send Function (Using Highload Wallet, suitable for high frequency service)
-  const { wallet, send } = await getWalletV5(tonClient, mnemonic);
+  const { wallet, send } = await createWalletV5(tonClient, mnemonic, 'testnet');
 
   // Recommend to generate queryId before sending transaction
   const queryId = await generateQueryId();

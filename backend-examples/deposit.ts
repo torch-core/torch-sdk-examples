@@ -18,7 +18,7 @@ import {
   TorchSDK,
   toUnit,
 } from '@torch-finance/sdk';
-import { getWalletV5 } from './wallets';
+import { createWalletV5 } from '@torch-finance/wallet-utils';
 
 configDotenv({ path: '../.env' });
 
@@ -41,7 +41,7 @@ async function main() {
   }
 
   // Get Wallet and Send Function
-  const { wallet, send } = await getWalletV5(tonClient, mnemonic);
+  const { wallet, send } = await createWalletV5(tonClient, mnemonic, 'testnet');
 
   // Recommend to generate queryId before sending transaction
   const queryId = await generateQueryId();

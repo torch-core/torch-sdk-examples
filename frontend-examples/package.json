@@ -11,9 +11,6 @@
   },
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@ton/core": "^0.59.0",
-    "@ton/crypto": "^3.3.0",
-    "@ton/ton": "^15.1.0",
     "@tonconnect/ui-react": "^2.0.11",
     "buffer": "^6.0.3",
     "react": "^18.3.1",

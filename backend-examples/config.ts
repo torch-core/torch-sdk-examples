@@ -8,15 +8,15 @@ export const testnetApi = 'https://testnet-api.torch.finance';
 export const testnetOracle = 'https://testnet-oracle.torch.finance';
 
 export const factoryAddress = Address.parse(
-  'EQBO9Xw9w0hJQx4kw3RSKu2LROZbtKg4icITKYp5enCQVGCu'
+  'EQCphoE6MwHy2kvnim6RrRr71oY6KSTMXiTMAEu-qRS4QUwV'
 );
 
 export const BasePoolAddress = Address.parse(
-  'EQCEao02tugbZjudFRMfyu2s_nVZli7F_rgxC1OjdvXpsBsw'
+  'EQDbr509-6mnEyVunP2L4WdOo0WksZohqzpsEzXIJo7RSnfK'
 );
 
 export const MetaPoolAddress = Address.parse(
-  'EQA4rUktNrzOmgZ4OzsOX5Q-C1KelFPCtH8ln2YaHgyAO4kc'
+  'EQAE9vvdmXQo193QLtPbEQ0HPU1hqo9Mo3tJPKnT6zACu8Ps'
 );
 
 export const USDCAddress = Address.parse(
@@ -46,7 +46,7 @@ export const TSTON_ASSET = Asset.jetton(
 );
 
 export const TRITON_ASSET = Asset.jetton(
-  Address.parse('EQCEao02tugbZjudFRMfyu2s_nVZli7F_rgxC1OjdvXpsBsw')
+  Address.parse('EQDbr509-6mnEyVunP2L4WdOo0WksZohqzpsEzXIJo7RSnfK')
 );
 
 export const HTON_ASSET = Asset.jetton(
@@ -54,7 +54,7 @@ export const HTON_ASSET = Asset.jetton(
 );
 
 export const QUADTON_ASSET = Asset.jetton(
-  Address.parse('EQA4rUktNrzOmgZ4OzsOX5Q-C1KelFPCtH8ln2YaHgyAO4kc')
+  Address.parse('EQAE9vvdmXQo193QLtPbEQ0HPU1hqo9Mo3tJPKnT6zACu8Ps')
 );
 
 export const CRVUSD_ASSET = Asset.jetton(crvUSDAddress);

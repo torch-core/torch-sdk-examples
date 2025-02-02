@@ -9,29 +9,29 @@ importers:
   .:
     dependencies:
       '@ton/core':
-        specifier: ^0.59.1
-        version: 0.59.1(@ton/crypto@3.3.0)
+        specifier: ^0.60.0
+        version: 0.60.0(@ton/crypto@3.3.0)
       '@ton/crypto':
         specifier: ^3.3.0
         version: 3.3.0
       '@ton/ton':
-        specifier: ^15.1.0
-        version: 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
+        specifier: ^15.2.0
+        version: 15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
       '@tonconnect/sdk':
         specifier: ^3.0.6
         version: 3.0.6
       '@torch-finance/core':
         specifier: ^1.3.2
-        version: 1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
+        version: 1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
       '@torch-finance/dex-contract-wrapper':
         specifier: ^0.2.5
-        version: 0.2.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)
+        version: 0.2.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)
       '@torch-finance/sdk':
         specifier: ^1.1.0
-        version: 1.1.0(d4d95997a9c8782e83d45a5ec03ad6a9)
+        version: 1.1.0(6572c28922c49d676e7570a700f26e31)
       '@torch-finance/simulator':
         specifier: ^0.3.5
-        version: 0.3.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(@torch-finance/dex-contract-wrapper@0.2.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1))(hono@4.6.18)(zod@3.24.1)
+        version: 0.3.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(@torch-finance/dex-contract-wrapper@0.2.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1))(hono@4.6.18)(zod@3.24.1)
       '@types/node':
         specifier: ^22.10.1
         version: 22.10.10
@@ -50,9 +50,9 @@ importers:
 
   backend-examples:
     dependencies:
-      '@ton/core':
-        specifier: ^0.59.0
-        version: 0.59.1(@ton/crypto@3.3.0)
+      '@torch-finance/wallet-utils':
+        specifier: ^0.1.1
+        version: 0.1.1(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))
       tsx:
         specifier: ^4.19.2
         version: 4.19.2
@@ -62,15 +62,6 @@ importers:
       '@esbuild-plugins/node-globals-polyfill':
         specifier: ^0.2.3
         version: 0.2.3(esbuild@0.24.2)
-      '@ton/core':
-        specifier: ^0.59.0
-        version: 0.59.1(@ton/crypto@3.3.0)
-      '@ton/crypto':
-        specifier: ^3.3.0
-        version: 3.3.0
-      '@ton/ton':
-        specifier: ^15.1.0
-        version: 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
       '@tonconnect/ui-react':
         specifier: ^2.0.11
         version: 2.0.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -735,8 +726,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@ton/core@0.59.1':
-    resolution: {integrity: sha512-SxFBAvutYJaIllTkv82vbHTJhJI6NxzqUhi499CDEjJEZ9i6i9lHJiK2df4dlLAb/4SiWX6+QUzESkK4DEdnCw==}
+  '@ton/core@0.60.0':
+    resolution: {integrity: sha512-vK0itrieVashNQ7geqpvlWcOyXsXKKtIo6h02HcVcMeNo+QxovBaDAvou3BUKDnf7ej6+rRSuXMSOIjBct/zIg==}
     peerDependencies:
       '@ton/crypto': '>=3.2.0'
 
@@ -746,10 +737,10 @@ packages:
   '@ton/crypto@3.3.0':
     resolution: {integrity: sha512-/A6CYGgA/H36OZ9BbTaGerKtzWp50rg67ZCH2oIjV1NcrBaCK9Z343M+CxedvM7Haf3f/Ee9EhxyeTp0GKMUpA==}
 
-  '@ton/ton@15.1.0':
-    resolution: {integrity: sha512-almetcfTu7jLjcNcEEPB7wAc8yl90ES1M//sOr1QE+kv7RbmEvMkaPSc7kFxzs10qrjIPKxlodBJlMSWP5LuVQ==}
+  '@ton/ton@15.2.0':
+    resolution: {integrity: sha512-xddD1Oia7IAWl/VWgaHIdcsI8eIp1hmdEDWtYxAgeZOlwJCT+gfN0prwasM/IvPsI8y49A9/doIRZblXPWxd8g==}
     peerDependencies:
-      '@ton/core': '>=0.59.0'
+      '@ton/core': '>=0.60.0'
       '@ton/crypto': '>=3.2.0'
 
   '@tonconnect/isomorphic-eventsource@0.0.2':
@@ -813,6 +804,14 @@ packages:
       '@ton/ton': '>=15.1.0'
       '@torch-finance/core': '>=1.3.2'
       '@torch-finance/dex-contract-wrapper': '>=0.2.4'
+
+  '@torch-finance/wallet-utils@0.1.1':
+    resolution: {integrity: sha512-9i9mbChPDVomzX2ueMJulIFCtE81zU4ZHm/5JWfnnqJECmDJGaYKydFdXREaAF/rFCZjkg2djOU6K5kBcWO2zA==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      '@ton/core': '>=0.60.0'
+      '@ton/crypto': '>=3.3.0'
+      '@ton/ton': '>=15.2.0'
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -2659,7 +2658,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.31.0':
     optional: true
 
-  '@ton/core@0.59.1(@ton/crypto@3.3.0)':
+  '@ton/core@0.60.0(@ton/crypto@3.3.0)':
     dependencies:
       '@ton/crypto': 3.3.0
       symbol.inspect: 1.0.1
@@ -2674,9 +2673,9 @@ snapshots:
       jssha: 3.2.0
       tweetnacl: 1.0.3
 
-  '@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)':
+  '@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)':
     dependencies:
-      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
+      '@ton/core': 0.60.0(@ton/crypto@3.3.0)
       '@ton/crypto': 3.3.0
       axios: 1.7.9
       dataloader: 2.2.3
@@ -2727,46 +2726,52 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)':
+  '@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)':
     dependencies:
-      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
+      '@ton/core': 0.60.0(@ton/crypto@3.3.0)
       '@ton/crypto': 3.3.0
-      '@ton/ton': 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
+      '@ton/ton': 15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
       zod: 3.24.1
 
-  '@torch-finance/dex-contract-wrapper@0.2.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)':
+  '@torch-finance/dex-contract-wrapper@0.2.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)':
     dependencies:
-      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
+      '@ton/core': 0.60.0(@ton/crypto@3.3.0)
       '@ton/crypto': 3.3.0
-      '@ton/ton': 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
-      '@torch-finance/core': 1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
+      '@ton/ton': 15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
+      '@torch-finance/core': 1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
       zod: 3.24.1
 
-  '@torch-finance/sdk@1.1.0(d4d95997a9c8782e83d45a5ec03ad6a9)':
+  '@torch-finance/sdk@1.1.0(6572c28922c49d676e7570a700f26e31)':
     dependencies:
-      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
+      '@ton/core': 0.60.0(@ton/crypto@3.3.0)
       '@ton/crypto': 3.3.0
-      '@ton/ton': 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
-      '@torch-finance/core': 1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
-      '@torch-finance/dex-contract-wrapper': 0.2.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)
-      '@torch-finance/simulator': 0.3.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(@torch-finance/dex-contract-wrapper@0.2.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1))(hono@4.6.18)(zod@3.24.1)
+      '@ton/ton': 15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
+      '@torch-finance/core': 1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
+      '@torch-finance/dex-contract-wrapper': 0.2.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)
+      '@torch-finance/simulator': 0.3.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(@torch-finance/dex-contract-wrapper@0.2.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1))(hono@4.6.18)(zod@3.24.1)
       axios: 1.7.9
       decimal.js: 10.5.0
       zod: 3.24.1
     transitivePeerDependencies:
       - debug
 
-  '@torch-finance/simulator@0.3.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(@torch-finance/dex-contract-wrapper@0.2.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1))(hono@4.6.18)(zod@3.24.1)':
+  '@torch-finance/simulator@0.3.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(@torch-finance/dex-contract-wrapper@0.2.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1))(hono@4.6.18)(zod@3.24.1)':
     dependencies:
       '@hono/zod-openapi': 0.18.3(hono@4.6.18)(zod@3.24.1)
-      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
+      '@ton/core': 0.60.0(@ton/crypto@3.3.0)
       '@ton/crypto': 3.3.0
-      '@ton/ton': 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
-      '@torch-finance/core': 1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
-      '@torch-finance/dex-contract-wrapper': 0.2.5(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)
+      '@ton/ton': 15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
+      '@torch-finance/core': 1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
+      '@torch-finance/dex-contract-wrapper': 0.2.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)
     transitivePeerDependencies:
       - hono
       - zod
+
+  '@torch-finance/wallet-utils@0.1.1(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))':
+    dependencies:
+      '@ton/core': 0.60.0(@ton/crypto@3.3.0)
+      '@ton/crypto': 3.3.0
+      '@ton/ton': 15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
 
   '@types/babel__core@7.20.5':
     dependencies:
