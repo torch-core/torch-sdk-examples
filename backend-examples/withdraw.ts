@@ -20,7 +20,7 @@ import { AssetType } from '@torch-finance/core';
 configDotenv({ path: '../.env' });
 
 // If you want to speed up the swap process, you can set the blockNumber to reduce the number of queries
-const blockNumber = 27495602;
+const blockNumber = 27724599;
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });

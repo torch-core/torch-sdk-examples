@@ -1,4 +1,4 @@
-import { TonClient4 } from '@ton/ton';
+import { toNano, TonClient4 } from '@ton/ton';
 import { configDotenv } from 'dotenv';
 import {
   factoryAddress,
@@ -8,18 +8,12 @@ import {
   TON_ASSET,
   TSTON_ASSET,
 } from './config';
-import {
-  SwapParams,
-  TorchSDK,
-  TorchSDKOptions,
-  generateQueryId,
-  toUnit,
-} from '@torch-finance/sdk';
-import { createWalletV5 } from '@torch-finance/wallet-utils';
+import { SwapParams, TorchSDK, TorchSDKOptions, toUnit } from '@torch-finance/sdk';
+import { createHighloadWalletV3, createWalletV5, getHighloadQueryId } from '@torch-finance/wallet-utils';
 configDotenv({ path: '../.env' });
 
 // If you want to speed up the swap process, you can set the blockNumber to reduce the number of queries
-const blockNumber = 27495602;
+const blockNumber = 27724599;
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
@@ -36,18 +30,26 @@ async function main() {
     throw new Error('WALLET_MNEMONIC is not set in .env');
   }
 
-  const { wallet, send } = await createWalletV5(tonClient, mnemonic, 'testnet');
+  const { wallet, send, deploy } = await createHighloadWalletV3(tonClient, mnemonic);
 
-  // Recommend to generate queryId before sending transaction
-  const queryId = await generateQueryId();
+  if (await tonClient.isContractDeployed(blockNumber, wallet.address)) {
+    console.log('Wallet already deployed');
+  } else {
+    const { wallet: walletV5, keyPair } = await createWalletV5(tonClient, mnemonic, 'testnet');
+    const secretKey = Buffer.from(keyPair.secretKey);
+    await deploy(walletV5.sender(secretKey), toNano('0.1'));
+    console.log(`Highload wallet deployed at ${wallet.address}`);
+  }
+
+  const highloadQueryId = getHighloadQueryId();
 
   // Swap 0.0001 TSTON for TON
   const swapParams: SwapParams = {
     mode: 'ExactIn',
-    queryId: queryId,
+    queryId: highloadQueryId.getQueryId(),
     assetIn: TON_ASSET,
     assetOut: TSTON_ASSET,
-    amountIn: toUnit('0.0001', 9), // 0.0001 TSTON
+    amountIn: toUnit('0.0001', 9), // 0.0001 TON
     slippageTolerance: 0.01, // 1%
   };
 
@@ -58,20 +60,12 @@ async function main() {
   start = performance.now();
   const { result, getSwapPayload } = await sdk.simulateSwap(swapParams);
   end = performance.now();
-  console.log(`Time taken (Simulate Swap): ${end - start} milliseconds`);
 
-  console.log(
-    `
-Execution Price: 1 tsTON = ${result.executionPrice} TON
-Amount In: ${swapParams.amountIn.toString()}
-Expected Amount Out: ${
-      result.mode === 'ExactIn' ? result.amountOut.toString() : 'N/A'
-    }
-Min Amount Out: ${
-      result.minAmountOut?.toString() || '(No slippage tolerance specified)'
-    }
-`
-  );
+  console.log('Execution Price: 1 tsTON =', result.executionPrice, 'TON');
+  console.log('Amount In:', swapParams.amountIn.toString());
+  console.log('Expected Amount Out:', result.mode === 'ExactIn' ? result.amountOut.toString() : 'N/A');
+  console.log('Min Amount Out:', result.minAmountOut?.toString() || '(No slippage tolerance specified)');
+  console.log(`Time taken (Simulate Swap): ${end - start} milliseconds`);
 
   const sender = wallet.address;
 
@@ -83,7 +77,10 @@ Min Amount Out: ${
   end = performance.now();
   console.log(`Time taken (Get Swap Payload): ${end - start} milliseconds`);
 
-  const msgHash = await send(senderArgs);
+  const msgHash = await send(senderArgs, highloadQueryId, {
+    verbose: true,
+    on_fail: () => {},
+  });
 
   // Or, we can send transaction directly with sdk.getSwapPayload and get msghash
   // const senderArgs = await sdk.getSwapPayload(sender, swapParams, {

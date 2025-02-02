@@ -23,7 +23,7 @@ import { createWalletV5 } from '@torch-finance/wallet-utils';
 configDotenv({ path: '../.env' });
 
 // If you want to speed up the deposit process, you can set the blockNumber to reduce the number of queries (Dramatically)
-const blockNumber = 27495602;
+const blockNumber = 27724599;
 
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
