@@ -12,9 +12,6 @@ import { SwapParams, TorchSDK, TorchSDKOptions, toUnit } from '@torch-finance/sd
 import { createHighloadWalletV3, createWalletV5, getHighloadQueryId } from '@torch-finance/wallet-utils';
 configDotenv({ path: '../.env' });
 
-// If you want to speed up the swap process, you can set the blockNumber to reduce the number of queries
-const blockNumber = 27724599;
-
 async function main() {
   const tonClient = new TonClient4({ endpoint: testnetEndpoint });
   const config: TorchSDKOptions = {
@@ -30,10 +27,14 @@ async function main() {
     throw new Error('WALLET_MNEMONIC is not set in .env');
   }
 
+  // If you want to speed up the swap process, you can set the blockNumber to reduce the number of queries
+  const blockNumber = (await tonClient.getLastBlock()).last.seqno;
+  console.log('Latest Block Number:', blockNumber);
+
   const { wallet, send, deploy } = await createHighloadWalletV3(tonClient, mnemonic, { timeout: 120 });
 
   if (await tonClient.isContractDeployed(blockNumber, wallet.address)) {
-    console.log('Wallet already deployed');
+    console.log('Highload wallet already deployed');
   } else {
     const { wallet: walletV5, keyPair } = await createWalletV5(tonClient, mnemonic, 'testnet');
     const secretKey = Buffer.from(keyPair.secretKey);
