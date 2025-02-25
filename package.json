@@ -16,7 +16,7 @@
     "@torch-finance/core": "^1.3.2",
     "@torch-finance/dex-contract-wrapper": "^0.2.9",
     "@torch-finance/sdk": "^1.2.0",
-    "@torch-finance/simulator": "^0.3.5",
+    "@torch-finance/simulator": "^0.4.0",
     "@types/node": "^22.10.1",
     "axios": "^1.7.8",
     "decimal.js": "^10.4.3",
