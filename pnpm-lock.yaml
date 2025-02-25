@@ -27,8 +27,8 @@ importers:
         specifier: ^0.2.9
         version: 0.2.9(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1)
       '@torch-finance/sdk':
-        specifier: ^1.2.0
-        version: 1.2.0(26f82353fdf453f7a929c74c86a91cd9)
+        specifier: ^1.2.2
+        version: 1.2.2(26f82353fdf453f7a929c74c86a91cd9)
       '@torch-finance/simulator':
         specifier: ^0.3.5
         version: 0.3.5(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(@torch-finance/dex-contract-wrapper@0.2.9(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(@torch-finance/core@1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1))(zod@3.24.1))(hono@4.6.18)(zod@3.24.1)
@@ -783,8 +783,8 @@ packages:
       '@torch-finance/core': '>=1.3.2'
       zod: '>=3.24.1'
 
-  '@torch-finance/sdk@1.2.0':
-    resolution: {integrity: sha512-oNrYhNj8rb8wsni8k7AEOgJ1tAUin6/RPdUqU8n5kL9w6qex/iw/Xyfi7j8JDhVdKIH1UXEcNw/8qfelIkZuBg==}
+  '@torch-finance/sdk@1.2.2':
+    resolution: {integrity: sha512-gUe4AQuQbMIqm1rlRX2YERqtE9Nv2apobUHUdsWjh/d+26xT20g5NtBGb9GgLaEgLlVDywZYAs9gmP8VkRTGOQ==}
     engines: {node: '>=22'}
     peerDependencies:
       '@ton/core': '>=0.59.1'
@@ -2740,7 +2740,7 @@ snapshots:
       '@torch-finance/core': 1.3.2(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)(@ton/ton@15.2.0(@ton/core@0.60.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0))(zod@3.24.1)
       zod: 3.24.1
 
-  '@torch-finance/sdk@1.2.0(26f82353fdf453f7a929c74c86a91cd9)':
+  '@torch-finance/sdk@1.2.2(26f82353fdf453f7a929c74c86a91cd9)':
     dependencies:
       '@ton/core': 0.60.0(@ton/crypto@3.3.0)
       '@ton/crypto': 3.3.0
